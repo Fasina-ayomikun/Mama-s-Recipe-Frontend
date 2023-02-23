@@ -1,0 +1,41 @@
+@import url("https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;500;600&family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap");
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  html {
+    font-family: Inter, sans-serif;
+  }
+}
+.active {
+  color: #df9a57;
+}
+
+.h1-mt {
+  margin-top: -30px;
+}
+body {
+  font-family: "Inter", sans-serif;
+  background-color: #000;
+  color: #df9a57;
+  overflow-x: hidden;
+}
+.main-image div {
+  visibility: hidden;
+}
+textarea {
+  overflow-y: hidden;
+}
+select,
+input,
+textarea {
+  outline: none;
+  appearance: none;
+}
+@media (hover: hover) {
+  .main-image:hover div {
+    visibility: visible;
+    transition: 0.3s ease-in;
+  }
+}
