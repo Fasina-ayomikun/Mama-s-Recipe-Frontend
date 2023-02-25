@@ -9,7 +9,7 @@ function ShowRecipe({ recipe }) {
     <div className=' w-full  h-full '>
       <div className='relative h-48  w-full max-h-80 main-image'>
         <img
-          src={`${process.env.REACT_APP_SERVER_URL}${image}`}
+          src={image}
           alt=''
           className='rounded max-height h-full w-full object-cover'
         />

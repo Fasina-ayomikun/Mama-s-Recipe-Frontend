@@ -4,7 +4,7 @@ import { HiOutlineArrowNarrowLeft } from "react-icons/hi";
 import { useState } from "react";
 import { Link, useParams } from "react-router-dom";
 import { ImgContainer, SingleReview, SingleStep, Stars } from "../utils";
-import { ReviewModal, ShowVideo, ToggleModal } from "../modals";
+import { ReviewModal, ToggleModal } from "../modals";
 import { useDispatch, useSelector } from "react-redux";
 import { getSingleRecipe } from "../features/singleRecipe/singleRecipeSlice";
 import Loading from "../utils/Loading";
@@ -17,7 +17,6 @@ function SingleRecipePage() {
   const [openReview, setOpenReview] = useState(false);
   const [endSlice, setEndSlice] = useState(8);
   const [imageLoading, setImageLoading] = useState(true);
-  const [videoLoading, setVideoLoading] = useState(true);
 
   const {
     isLoading,
@@ -26,7 +25,6 @@ function SingleRecipePage() {
     noOfReviews,
     image,
     averageRatings,
-    video,
     equipments,
     description,
     instructions,
@@ -47,10 +45,7 @@ function SingleRecipePage() {
     if (image) {
       setImageLoading(false);
     }
-    if (video) {
-      setVideoLoading(false);
-    }
-  }, [image, video]);
+  }, [imageLoading]);
   if (isLoading) {
     return <Loading small={false} />;
   }
@@ -81,7 +76,6 @@ function SingleRecipePage() {
                 files={{
                   isEditing: true,
                   image,
-                  video,
                 }}
                 email={user?.email}
                 id={id}
@@ -94,33 +88,16 @@ function SingleRecipePage() {
           <Loading small={true} />
         ) : (
           <img
-            src={image ? `${process.env.REACT_APP_SERVER_URL}${image}` : ""}
+            src={image}
             alt=''
             className='object-cover w-full h-48 rounded'
           />
         )}
         <div className='flex flex-wrap items-center justify-between gap-3 my-4'>
-          <h5
-            onClick={() => {
-              setOpenModal(true);
-              setOpen(false);
-            }}
-            className='cursor-pointer  underline text-orange text-sm'
-          >
-            Watch Video
-          </h5>
-
           <div className='stars  text-sm text-orange flex items-center '>
             <Stars ratings={averageRatings} />
             <span className='text-grey text-xs ml-2'>( {noOfReviews} )</span>
           </div>
-          {openModal && (
-            <ShowVideo
-              videoLoading={videoLoading}
-              video={video}
-              setOpenModal={setOpenModal}
-            />
-          )}
         </div>
         <h1 className='font-extrabold tracking-wider my-6 text-2xl text-center'>
           {name}

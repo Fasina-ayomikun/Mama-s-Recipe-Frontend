@@ -5,7 +5,7 @@ import { AiFillPlusCircle, AiOutlineCheck } from "react-icons/ai";
 import { FiMoreHorizontal } from "react-icons/fi";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate, useParams } from "react-router-dom";
-import { uploadImage, uploadVideo } from "../features/files/filesSlice";
+import { uploadImage } from "../features/files/filesSlice";
 import {
   createRecipe,
   createStep,
@@ -26,7 +26,6 @@ function CreateRecipesPage() {
   const [stepToEdit, setStepToEdit] = useState("");
   const [editingStep, setEditingStep] = useState(false);
   const [stepInput, setStepInput] = useState("");
-  const [imageLoading, setImageLoading] = useState(true);
 
   const { id } = useParams();
   const formData = new FormData();
@@ -52,7 +51,7 @@ function CreateRecipesPage() {
     ingredients,
   } = useSelector((store) => store.singleRecipe);
 
-  const { image, video } = useSelector((s) => s.files);
+  const { image, isLoading: imageLoading } = useSelector((s) => s.files);
 
   const handleEventChange = (input) => {
     const name = input.name;
@@ -70,13 +69,6 @@ function CreateRecipesPage() {
     dispatch(uploadImage(formData));
   };
 
-  const handleVideoUpload = (e) => {
-    const input = e.target;
-    const file = input.files[0];
-    formData.append("video", file);
-    dispatch(uploadVideo(formData));
-  };
-
   const handleSubmit = (e) => {
     e.preventDefault();
     if (recipeToEdit?.isEditing) {
@@ -90,7 +82,6 @@ function CreateRecipesPage() {
           ingredients,
           instructions,
           image,
-          video,
         })
       );
       localStorage.removeItem("Mama-recipe-edit-recipe");
@@ -104,7 +95,6 @@ function CreateRecipesPage() {
           ingredients,
           instructions,
           image,
-          video,
         })
       );
       setNewStep(true);
@@ -117,12 +107,6 @@ function CreateRecipesPage() {
       ref.current.value = step;
     }
   }, [editId]);
-
-  useEffect(() => {
-    if (image) {
-      setImageLoading(false);
-    }
-  }, [image]);
 
   useEffect(() => {
     if (localStorageInfo) {
@@ -155,15 +139,11 @@ function CreateRecipesPage() {
         Create a New Recipe
       </h3>
       <div className='mb-10 w-28  aspect-square mx-auto flex items-center bg-orange mt-7 justify-center rounded-full'>
-        {image ? (
-          <img
-            src={`${process.env.PUBLIC_URL}${image}`}
-            alt=''
-            className='object-cover h-full w-full rounded-full'
-          />
+        {imageLoading ? (
+          <Loading small={true} />
         ) : (
           <img
-            src={`${process.env.PUBLIC_URL}${recipeToEdit?.image}`}
+            src={`${image ? image : recipeToEdit?.image}`}
             alt=''
             className='object-cover h-full w-full rounded-full'
           />
@@ -182,19 +162,6 @@ function CreateRecipesPage() {
             name='image'
             readOnly={isLoading ? true : false}
             className=' sm:mt-3 w-4/6 md: mt-0 '
-          />
-        </div>
-        <div className='block'>
-          <label htmlFor='file' className='text-grey mr-5  '>
-            Recipe's Video:{" "}
-          </label>
-          <input
-            type='file'
-            name='video'
-            onChange={handleVideoUpload}
-            readOnly={isLoading ? true : false}
-            id='file'
-            className='sm:mt-3 w-4/6 md: mt-0 '
           />
         </div>
 

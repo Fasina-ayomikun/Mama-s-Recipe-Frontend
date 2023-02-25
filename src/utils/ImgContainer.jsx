@@ -4,7 +4,7 @@ import { Link, useNavigate } from "react-router-dom";
 
 function ImgContainer({ user, small }) {
   const navigate = useNavigate();
-
+  // console.log(user);
   return (
     <div
       onClick={() => {
@@ -17,11 +17,7 @@ function ImgContainer({ user, small }) {
       }`}
     >
       <img
-        src={
-          user?.profileImage
-            ? `${process.env.REACT_APP_SERVER_URL}${user?.profileImage}`
-            : ""
-        }
+        src={user?.profileImage}
         alt=''
         className='aspect-square object-cover rounded-full'
       />

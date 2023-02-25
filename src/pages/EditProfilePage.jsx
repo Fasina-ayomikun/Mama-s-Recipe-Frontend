@@ -4,14 +4,15 @@ import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import { uploadImage } from "../features/files/filesSlice";
 import { editUser, setUserEdited } from "../features/users/userSlice";
+import Loading from "../utils/Loading";
 import { getFromLocalStorage } from "../utils/localStorage";
 
 function EditProfilePage() {
   const user = getFromLocalStorage();
   const [value, setValue] = useState(user);
-  const [imageLoading, setImageLoading] = useState(true);
+  // const [imageLoading, setImageLoading] = useState(true);
   const dispatch = useDispatch();
-  const { image } = useSelector((s) => s.files);
+  const { image, isLoading: imageLoading } = useSelector((s) => s.files);
   const { isEdited } = useSelector((s) => s.user);
   const navigate = useNavigate();
   const formData = new FormData();
@@ -49,7 +50,7 @@ function EditProfilePage() {
 
   useEffect(() => {
     if (image) {
-      setImageLoading(false);
+      // setImageLoading(false);
       value.profileImage = image;
     }
   }, [image]);
@@ -68,16 +69,18 @@ function EditProfilePage() {
       </h3>
       <div className='mb-10 w-28 aspect-square mx-auto flex items-center bg-orange mt-7 justify-center rounded-full'>
         {image ? (
-          imageLoading || (
+          imageLoading ? (
+            <Loading small={true} />
+          ) : (
             <img
-              src={`${process.env.PUBLIC_URL}${image}`}
+              src={image}
               alt=''
               className='object-cover h-full w-full rounded-full'
             />
           )
         ) : (
           <img
-            src={`${process.env.PUBLIC_URL}${user?.profileImage}`}
+            src={user?.profileImage}
             alt=''
             className='object-cover h-full w-full rounded-full'
           />

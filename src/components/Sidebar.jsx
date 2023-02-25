@@ -39,11 +39,7 @@ function Sidebar() {
             className='w-32  aspect-square '
           >
             <img
-              src={
-                user?.profileImage
-                  ? `${process.env.REACT_APP_SERVER_URL}${user?.profileImage}`
-                  : ""
-              }
+              src={user?.profileImage}
               alt=''
               className='aspect-square object-cover '
             />

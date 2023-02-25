@@ -78,7 +78,7 @@ function SignUpPage() {
       </h3>
       <div className='mb-10 w-28 aspect-square mx-auto flex items-center bg-orange mt-7 justify-center rounded-full'>
         <img
-          src={image ? `..${image}` : ""}
+          src={image}
           alt=''
           className='h-full w-full object-cover aspect-square rounded-full'
         />
