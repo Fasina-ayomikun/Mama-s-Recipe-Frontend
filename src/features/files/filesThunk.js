@@ -4,13 +4,13 @@ import { checkUserAuthorization } from "../../utils/functions";
 
 const imageThunk = async (url, file, thunkAPI) => {
   try {
-    const resp = await axios.post('https://nutty-bass-nightshirt.cyclic.app/files/upload/image', file, {
-      headers: {
-        "Content-Type": "multipart/form-data",
-        'Access-Control-Allow-Origin':'*'
-      },
-      withCredentials: true,
-    });
+   const resp = await axios.post('https://nutty-bass-nightshirt.cyclic.app/files/upload/image', file, {
+  headers: {
+    "Content-Type": "multipart/form-data",
+    'Access-Control-Allow-Origin': 'https://mama-s-recipe.vercel.app'
+  },
+  withCredentials: true,
+});
     console.log(resp.data)
     return resp.data;
   } catch (error) {
