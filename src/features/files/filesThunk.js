@@ -5,12 +5,12 @@ import { checkUserAuthorization } from "../../utils/functions";
 const imageThunk = async (url, file, thunkAPI) => {
   try {
 
-const resp = await axios.post('https://api.cloudinary.com/v1_1/dn4lenrqs/image/upload', file, {
+ const resp = await axios.post('https://nutty-bass-nightshirt.cyclic.app/files/upload/image', file, {
   headers: {
-    'Content-Type': 'multipart/form-data',
-    'Access-Control-Allow-Credentials':true
+    "Content-Type": "multipart/form-data",
+    'Access-Control-Allow-Origin': 'https://nutty-bass-nightshirt.cyclic.app/files/upload/image'
   },
-  withCredentials: true
+  withCredentials: true,
 });
     console.log(resp.data)
     return resp.data;
