@@ -5,7 +5,7 @@ import { checkUserAuthorization } from "../../utils/functions";
 const imageThunk = async (url, file, thunkAPI) => {
   try {
 
-const resp = await axios.post('https://api.cloudinary.com/v1_1/YOUR_CLOUD_NAME/image/upload', file, {
+const resp = await axios.post('https://api.cloudinary.com/v1_1/dn4lenrqs/image/upload', file, {
   headers: {
     'Content-Type': 'multipart/form-data'
   },
