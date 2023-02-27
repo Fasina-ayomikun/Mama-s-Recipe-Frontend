@@ -37,7 +37,9 @@ function EditProfilePage() {
   const handleImageUpload = (e) => {
     const input = e.target;
     const file = input.files[0];
-    formData.append("image", file);
+    formData.append('file', file);
+    formData.append('upload_preset', 'YOUR_UPLOAD_PRESET');
+//     formData.append("image", file);
     dispatch(uploadImage(formData));
   };
 
