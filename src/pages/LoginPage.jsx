@@ -37,7 +37,7 @@ function LoginPage() {
       if (user.firstName) {
         setTimeout(() => {
           navigate("/");
-//           window.location.reload();
+          window.location.reload();
         }, 1000);
       }
     }
