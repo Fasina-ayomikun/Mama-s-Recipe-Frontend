@@ -9,8 +9,10 @@ const imageThunk = async (url, file, thunkAPI) => {
       },
       withCredentials: true,
     });
+    console.log(resp.data)
     return resp.data;
   } catch (error) {
+    console.log(error.response,error)
     return checkUserAuthorization(error, thunkAPI);
   }
 };
