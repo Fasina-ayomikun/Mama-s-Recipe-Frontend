@@ -8,7 +8,7 @@ const imageThunk = async (url, file, thunkAPI) => {
       
       headers: {
         "Content-Type": "multipart/form-data",
-        'Access-Control-Allow-Origin':process.env.REACT_APP_SERVER_URL ,
+        'Access-Control-Allow-Origin':'*' ,
      
       },
       withCredentials: true,
