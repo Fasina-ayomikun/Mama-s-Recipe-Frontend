@@ -35,10 +35,10 @@ function LoginPage() {
       clicked.current = false;
     } else {
       if (user.firstName) {
-//         setTimeout(() => {
-//           navigate("/");
+        setTimeout(() => {
+          navigate("/");
 //           window.location.reload();
-//         }, 1000);
+        }, 1000);
       }
     }
   }, [user]);
