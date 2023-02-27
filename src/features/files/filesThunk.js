@@ -7,7 +7,8 @@ const imageThunk = async (url, file, thunkAPI) => {
 
 const resp = await axios.post('https://api.cloudinary.com/v1_1/dn4lenrqs/image/upload', file, {
   headers: {
-    'Content-Type': 'multipart/form-data'
+    'Content-Type': 'multipart/form-data',
+    'Access-Control-Allow-Credentials':true
   },
   withCredentials: true
 });
