@@ -3,7 +3,7 @@ import { checkUserAuthorization } from "../../utils/functions";
 
 const imageThunk = async (url, file, thunkAPI) => {
   try {
-    const resp = await customUrl.post(url, file, {
+    const resp = await customUrl.post(`${process.env.REACT_APP_SERVER_URL}${url}`, file, {
       headers: {
         "Content-Type": "multipart/form-data",
       },
