@@ -1,4 +1,5 @@
 import { customUrl } from "../../utils/axios";
+import axios from "axios";
 import { checkUserAuthorization } from "../../utils/functions";
 
 const imageThunk = async (url, file, thunkAPI) => {
