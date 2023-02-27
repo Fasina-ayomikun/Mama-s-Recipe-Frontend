@@ -6,6 +6,8 @@ const imageThunk = async (url, file, thunkAPI) => {
     const resp = await customUrl.post(`${process.env.REACT_APP_SERVER_URL}${url}`, file, {
       headers: {
         "Content-Type": "multipart/form-data",
+        'Access-Control-Allow-Origin':process.env.REACT_APP_SERVER_URL ,
+     
       },
       withCredentials: true,
     });
