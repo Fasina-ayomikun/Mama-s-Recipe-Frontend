@@ -32,7 +32,7 @@ export const filesSlice = createSlice({
         state.isError = false;
       })
       .addCase(uploadImage.fulfilled, (state, { payload }) => {
-        console.log(payload);
+     
         state.isLoading = false;
         state.isError = false;
         state.image = payload.image;
