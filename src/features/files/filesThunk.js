@@ -8,7 +8,7 @@ const imageThunk = async (url, file, thunkAPI) => {
  const resp = await axios.post('https://nutty-bass-nightshirt.cyclic.app/files/upload/image', file, {
   headers: {
     "Content-Type": "multipart/form-data",
-    "Access-Control-Allow-Origin": 'https://mama-s-recipe.vercel.app',},
+    "Access-Control-Allow-Origin": '*',},
   withCredentials: true,
 });
     console.log(resp.data)
