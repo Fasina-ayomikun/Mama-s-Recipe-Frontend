@@ -172,7 +172,7 @@ function SingleRecipePage() {
             );
           })
         )}
-        {reviews.length < 1 || (
+        {reviews.length < 10 || (
           <button
             onClick={() =>
               setEndSlice((oldSlice) => {

@@ -4,7 +4,7 @@ import { Link, useNavigate } from "react-router-dom";
 
 function ImgContainer({ user, small }) {
   const navigate = useNavigate();
-  // console.log(user);
+  console.log(user);
   return (
     <div
       onClick={() => {

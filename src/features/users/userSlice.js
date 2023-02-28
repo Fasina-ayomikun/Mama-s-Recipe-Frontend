@@ -106,7 +106,6 @@ export const userSlice = createSlice({
         state.isEdited = true;
 
         toast.success(payload.msg);
-        localStorage.setItem("Mama-recipe-user-edited", JSON.stringify(true));
         setToLocalStorage(payload.user);
       })
       .addCase(editUser.rejected, (state, { payload }) => {

@@ -40,6 +40,7 @@ export const filesSlice = createSlice({
       .addCase(uploadImage.rejected, (state, { payload }) => {
         state.isLoading = false;
         state.isError = true;
+      console.log(payload)
         handleError(payload);
       });
   },

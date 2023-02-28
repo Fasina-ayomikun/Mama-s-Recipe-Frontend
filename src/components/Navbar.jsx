@@ -11,9 +11,10 @@ import { getFromLocalStorage } from "../utils/localStorage";
 import Sidebar from "./Sidebar";
 function Navbar() {
   const [stickyNav, setStickyNav] = useState(false);
-
+  // const [user, setUSer] = useState({});
   const dispatch = useDispatch();
   let user = getFromLocalStorage();
+
   useEffect(() => {
     const eventListener = window.addEventListener("scroll", () => {
       if (window.scrollY > window.innerHeight / 10) {

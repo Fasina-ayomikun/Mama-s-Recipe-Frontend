@@ -1,10 +1,9 @@
 import React from "react";
-import { Navigate, useNavigate } from "react-router-dom";
+import { Navigate} from "react-router-dom";
 import { toast } from "react-toastify";
 
 function ProtectedRoute({ children, id }) {
   if (!id) {
-    console.log(id);
     toast.warning("Please Log In");
     return <Navigate to='/'></Navigate>;
   } else {
