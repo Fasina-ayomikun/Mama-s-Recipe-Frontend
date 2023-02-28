@@ -56,7 +56,7 @@ function Sidebar() {
       ) : (
         <>
           <MdClose
-            onClick={() => dispatch(setOpenSidebar())}
+            onClick={() => dispatch(setCloseSidebar())}
             className='absolute  right-5 top-5 text-grey  text-3xl'
           ></MdClose>
           <Link to='/'>
