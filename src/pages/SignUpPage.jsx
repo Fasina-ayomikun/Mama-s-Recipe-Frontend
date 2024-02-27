@@ -4,73 +4,61 @@ import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
-import { uploadImage } from "../features/files/filesSlice";
 import { registerUser } from "../features/users/userSlice";
-import Loading from "../utils/Loading";
 import ShowPassword from "../utils/ShowPassword";
-const initialValue = {
-  firstName: "",
-  lastName: "",
-  displayName: "",
-  email: "",
-  bio: "",
-  profileImage: "",
-  password: "",
-  password2: "",
-};
+import { convertFileToBAse64, initialValue } from "../utils/utils";
+
 function SignUpPage() {
   const [value, setValue] = useState(initialValue);
   const [showPassword, setShowPassword] = useState(false);
   const [showPassword2, setShowPassword2] = useState(false);
+  const [image, setImage] = useState("");
+  const [file, setFile] = useState(null);
+  const navigate = useNavigate();
 
   const { isLoading, user } = useSelector((store) => store.user);
-  const { image } = useSelector((store) => store.files);
   const dispatch = useDispatch();
   const formData = new FormData();
-
-  const clicked = useRef(true);
-
   const handleChange = (input) => {
     const name = input.name;
     const newValue = input.value;
-    setValue((oldValues) => {
-      oldValues[name] = newValue;
-      return oldValues;
-    });
+    setValue({ ...value, [name]: newValue });
   };
   const registerNewUser = (e) => {
     e.preventDefault();
-    value.profileImage = image;
+    formData.append("firstName", value.firstName);
+    formData.append("lastName", value.lastName);
+    formData.append("email", value.email);
+    formData.append("password", value.password);
+    formData.append("password2", value.password2);
+    formData.append("profileImage", file);
+
     if (value.password !== value.password2) {
       toast.warning("Passwords do not match");
     } else {
-      dispatch(registerUser(value));
-      setValue(initialValue);
+      dispatch(registerUser(formData));
     }
   };
 
-  const navigate = useNavigate();
   const handleFileUpload = (input) => {
-    const file = input.files[0];
-    formData.append("image", file);
-    dispatch(uploadImage(formData));
+    let file = input.files[0];
+    setFile(file);
+    convertFileToBAse64(file)
+      .then((result) => {
+        setImage(result);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
   };
   useEffect(() => {
-    if (clicked.current) {
-      clicked.current = false;
-    } else {
-      if (user.email) {
-        setTimeout(() => {
-          navigate("/");
+    if (!(user.length < 1)) navigate("/");
 
-          window.location.reload();
-        }, 1000);
-      }
-    }
+    setValue(initialValue);
+    setImage("");
+    setFile(null);
   }, [user]);
-  if (isLoading) {
-    return <Loading />;
-  }
+
   return (
     <section className='max-w-xl   mx-auto  py-8  lg:px-0 md:w-4/5 sm:w-9/12'>
       <h3 className='text-3xl font-semibold capitalize text-center my-4 text-grey'>
@@ -103,12 +91,14 @@ function SignUpPage() {
             autoComplete='off'
             type='text'
             name='firstName'
+            value={value.firstName}
             onChange={(e) => handleChange(e.target)}
             placeholder='First Name'
             className='mb-5 text-grey block bg-transparent border-orange border-b-2  w-full rounded h-10 px-3 '
           />
           <input
             type='text'
+            value={value.lastName}
             name='lastName'
             autoComplete='off'
             onChange={(e) => handleChange(e.target)}
@@ -118,6 +108,7 @@ function SignUpPage() {
           <input
             type='text'
             name='displayName'
+            value={value.displayName}
             onChange={(e) => handleChange(e.target)}
             autoComplete='off'
             placeholder='Username'
@@ -126,6 +117,7 @@ function SignUpPage() {
           <input
             type='text'
             name='bio'
+            value={value.bio}
             autoComplete='off'
             onChange={(e) => handleChange(e.target)}
             placeholder='Bio'
@@ -134,6 +126,7 @@ function SignUpPage() {
           <input
             type='email'
             name='email'
+            value={value.email}
             autoComplete='off'
             onChange={(e) => handleChange(e.target)}
             placeholder='Email'
@@ -143,6 +136,7 @@ function SignUpPage() {
             <input
               type={`${showPassword ? "text" : "password"}`}
               name='password'
+              value={value.password}
               autoComplete='off'
               onChange={(e) => {
                 handleChange(e.target);
@@ -160,6 +154,7 @@ function SignUpPage() {
               type={`${showPassword2 ? "text" : "password"}`}
               name='password2'
               autoComplete='off'
+              value={value.password2}
               onChange={(e) => handleChange(e.target)}
               placeholder='Confirm Password'
               className=' text-grey block bg-transparent w-full h-full px-3 '
@@ -172,10 +167,10 @@ function SignUpPage() {
         </div>
         <button
           type='submit'
-          disabled={isLoading ? true : null}
+          disabled={isLoading}
           className='capitalize border-2 py-2 px-14  rounded  mx-auto flex my-12 text-grey border-orange'
         >
-          Register
+          {isLoading ? "Loading..." : "Register"}
         </button>
       </form>
       <p className='text-grey text-center text-sm'>

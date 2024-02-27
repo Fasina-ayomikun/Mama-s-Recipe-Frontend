@@ -20,6 +20,9 @@ const createRecipeThunk = async (body, thunkAPI) => {
   try {
     const resp = await customUrl.post("/recipes", body, {
       withCredentials: true,
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
     });
     thunkAPI.dispatch(clearState());
     thunkAPI.dispatch(clearImageState());
@@ -30,33 +33,10 @@ const createRecipeThunk = async (body, thunkAPI) => {
 };
 const editRecipeThunk = async (body, thunkAPI) => {
   try {
-    const {
-      editId,
-      name,
-      category,
-      description,
-      instructions,
-      equipments,
-      image,
-      video,
-      ingredients,
-    } = body;
-    const resp = await customUrl.patch(
-      `/recipes/${editId}`,
-      {
-        name,
-        category,
-        description,
-        instructions,
-        image,
-        video,
-        equipments,
-        ingredients,
-      },
-      {
-        withCredentials: true,
-      }
-    );
+    const { editId, formData } = body;
+    const resp = await customUrl.patch(`/recipes/${editId}`, formData, {
+      withCredentials: true,
+    });
     thunkAPI.dispatch(clearState());
 
     thunkAPI.dispatch(clearImageState());

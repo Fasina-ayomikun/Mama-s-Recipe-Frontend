@@ -4,9 +4,12 @@ import { clearImageState } from "../files/filesSlice";
 const registerUserThunk = async (url, user, thunkAPI) => {
   try {
     const resp = await customUrl.post(url, user, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
       withCredentials: true,
     });
-    thunkAPI.dispatch(clearImageState());
+    console.log(resp);
     return resp.data;
   } catch (error) {
     return thunkAPI.rejectWithValue(error.response.data.msg);

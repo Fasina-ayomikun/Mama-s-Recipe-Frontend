@@ -104,7 +104,6 @@ export const userSlice = createSlice({
         state.isError = false;
         state.user = payload.user;
         state.isEdited = true;
-
         toast.success(payload.msg);
         setToLocalStorage(payload.user);
       })

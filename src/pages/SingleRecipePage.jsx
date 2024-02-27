@@ -13,7 +13,6 @@ import Footer from "../components/Footer";
 
 function SingleRecipePage() {
   const [open, setOpen] = useState(false);
-  const [openModal, setOpenModal] = useState(false);
   const [openReview, setOpenReview] = useState(false);
   const [endSlice, setEndSlice] = useState(8);
   const [imageLoading, setImageLoading] = useState(true);

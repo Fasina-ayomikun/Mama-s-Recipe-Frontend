@@ -22,7 +22,7 @@ const initialState = {
   isEditing: false,
   noOfReviews: "",
   user: [],
-  image: "",
+  images: [],
   video: "",
 };
 
@@ -54,69 +54,47 @@ const singleRecipeSlice = createSlice({
   initialState,
   reducers: {
     handleChange: (state, { payload }) => {
-      let { name, value, steps } = payload;
-      if (name === "equipments") {
-        if (!value.startsWith(" ") && value !== ",") {
-          if (value.includes(",")) {
-            value = value.split(",")[0];
-            const valueFound = state.equipments.find((e) => e === value);
-            if (valueFound) {
-              state.equipments = [...state.equipments];
-            } else {
-              state.equipments = [...state.equipments, value];
-            }
+      let { name, value } = payload;
+      if (name === "equipments" || name === "ingredients") {
+        if (value.startsWith(" ") && value === ",") return;
+        if (value.includes(",")) {
+          value = value.split(",")[0];
+          const valueFound = state[name].find((e) => e === value);
+          if (valueFound) {
+            state[name] = [...state[name]];
+          } else {
+            state[name] = [...state[name], value];
           }
         }
-      } else if (name === "ingredients") {
-        if (!value.includes(" ") && value !== ",") {
-          if (value.includes(",")) {
-            value = value.split(",")[0];
-            const valueFound = state.ingredients.find((e) => e === value);
-            if (valueFound) {
-              state.ingredients = [...state.ingredients];
-            } else {
-              state.ingredients = [...state.ingredients, value];
-            }
-          }
-        }
-      } else if (name === "steps") {
-        state.instructions = steps;
       } else {
         state[name] = value;
       }
     },
-    clearState: (state) => {
+    clearState: () => {
       return initialState;
     },
     createStep: (state, { payload }) => {
-      const { id } = payload;
-      let stepToEdit = state.instructions.find((item) => item.id === id);
-      if (stepToEdit) {
-        return state;
-      } else {
-        return { ...state, instructions: [...state.instructions, payload] };
-      }
+      return { ...state, instructions: [...state.instructions, payload] };
     },
     editStep: (state, { payload }) => {
-      const { id, step } = payload;
-      let stepToEdit = state.instructions.find((item) => item.id === id);
+      const { step, details } = payload;
+      let stepToEdit = state.instructions.find((item) => item.step === step);
 
-      stepToEdit.step = step;
+      stepToEdit.details = details;
       return state;
     },
     deleteStep: (state, { payload }) => {
-      const id = payload;
-      const filteredSteps = state.instructions.filter((item) => item.id !== id);
+      const step = payload;
+      const filteredSteps = state.instructions.filter(
+        (item) => item.step !== step
+      );
 
       return { ...state, instructions: [...filteredSteps] };
     },
 
-    deleteIngredient: (state, { payload }) => {
-      state.ingredients.splice(payload, 1);
-      return state;
-    },
-    deleteEquipment: (state, { payload }) => {
-      state.equipments.splice(payload, 1);
+    deleteTags: (state, { payload }) => {
+      const { type, index } = payload;
+      state[type].splice(index, 1);
       return state;
     },
   },
@@ -209,7 +187,6 @@ export const {
   deleteStep,
   createStep,
   clearState,
-  deleteIngredient,
-  deleteEquipment,
+  deleteTags,
 } = singleRecipeSlice.actions;
 export default singleRecipeSlice.reducer;

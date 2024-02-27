@@ -4,7 +4,13 @@ import { FaTrash } from "react-icons/fa";
 import { useDispatch } from "react-redux";
 import { deleteStep } from "../features/singleRecipe/singleRecipeSlice";
 
-function StepToggle({ setEditId, id, setOpen, setNewStep, setEditingStep }) {
+function StepToggle({
+  step,
+  setStepToEditIndex,
+  setCreatingNewStep,
+  setEditingStep,
+  setOpenStepModal,
+}) {
   const dispatch = useDispatch();
 
   return (
@@ -12,9 +18,9 @@ function StepToggle({ setEditId, id, setOpen, setNewStep, setEditingStep }) {
       <li
         className='my-3 flex items-center gap-3'
         onClick={(e) => {
-          setOpen({ status: false });
-          setEditId(id);
-          setNewStep(true);
+          setOpenStepModal({ status: false });
+          setStepToEditIndex(step);
+          setCreatingNewStep(true);
           setEditingStep(true);
         }}
       >
@@ -22,9 +28,9 @@ function StepToggle({ setEditId, id, setOpen, setNewStep, setEditingStep }) {
       </li>
       <li
         onClick={() => {
-          setOpen({ status: false });
-          setEditId(id);
-          dispatch(deleteStep(id));
+          setOpenStepModal({ status: false });
+          setStepToEditIndex(step);
+          dispatch(deleteStep(step));
           setEditingStep(false);
         }}
         className='my-3 flex items-center gap-3'

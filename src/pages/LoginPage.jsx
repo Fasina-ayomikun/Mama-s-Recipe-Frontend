@@ -15,32 +15,19 @@ function LoginPage() {
   const { isLoading, user } = useSelector((store) => store.user);
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const clicked = useRef(true);
 
   const handleChange = (input) => {
     const name = input.name;
     const newValue = input.value;
-    setValue((oldValues) => {
-      oldValues[name] = newValue;
-      return oldValues;
-    });
+    setValue({ ...value, [name]: newValue });
   };
   const loginNewUser = (e) => {
     e.preventDefault();
     dispatch(loginUser(value));
-    setValue(initialValue);
   };
   useEffect(() => {
-    if (clicked.current) {
-      clicked.current = false;
-    } else {
-      if (user.firstName) {
-        setTimeout(() => {
-          navigate("/");
-          window.location.reload();
-        }, 1000);
-      }
-    }
+    if (!(user.length < 1)) navigate("/");
+    setValue(initialValue);
   }, [user]);
 
   if (isLoading) {
@@ -56,6 +43,7 @@ function LoginPage() {
           <input
             type='email'
             autoComplete='off'
+            value={value.email}
             onChange={(e) => handleChange(e.target)}
             placeholder='Email'
             name='email'
@@ -64,6 +52,7 @@ function LoginPage() {
           <div className=' mb-5 flex items-center gap-1 bg-transparent h-10 border-orange border-b-2 rounded'>
             <input
               type={`${showPassword ? "text" : "password"}`}
+              value={value.password}
               placeholder='Password'
               name='password'
               autoComplete='off'
@@ -79,7 +68,7 @@ function LoginPage() {
 
         <button
           type='submit'
-          disabled={isLoading && true}
+          disabled={isLoading}
           className='capitalize border-2 py-2 px-14  rounded  mx-auto flex my-12 text-grey border-orange'
         >
           Login

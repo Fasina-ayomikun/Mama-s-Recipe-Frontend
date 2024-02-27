@@ -20,9 +20,9 @@ function PopularRecipes() {
         <div className='grid lg:grid-cols-3 md:grid-cols-2 sm:grid-cols-1 gap-10 items-center justify-between mt-16 w-full'>
           {popularRecipes(recipes)
             .slice(0, 3)
-            .map((recipe) => {
-              return <ShowRecipe key={recipe._id} recipe={recipe} />;
-            })}
+            .map((recipe) => (
+              <ShowRecipe key={recipe._id} recipe={recipe} />
+            ))}
         </div>
         <button className='border-b-2 rounded mx-auto flex my-12 text-grey border-orange'>
           <Link to='recipes'>View All Recipes</Link>

@@ -1,10 +1,7 @@
 import React from "react";
 import { MdClose } from "react-icons/md";
 import { useDispatch } from "react-redux";
-import {
-  deleteEquipment,
-  deleteIngredient,
-} from "../features/singleRecipe/singleRecipeSlice";
+import { deleteTags } from "../features/singleRecipe/singleRecipeSlice";
 
 function ListItems({ index, item, type }) {
   const dispatch = useDispatch();
@@ -17,13 +14,7 @@ function ListItems({ index, item, type }) {
       <MdClose
         className='text-zinc-400 text-sm'
         onClick={() => {
-          if (type === "ingredients") {
-            dispatch(deleteIngredient(index));
-          }
-
-          if (type === "equipments") {
-            dispatch(deleteEquipment(index));
-          }
+          dispatch(deleteTags({ type, index }));
         }}
       />{" "}
     </li>

@@ -18,15 +18,19 @@ import StepToggle from "../modals/StepToggle";
 import Loading from "../utils/Loading";
 import Tags from "../utils/Tags";
 import { HiOutlineArrowNarrowLeft } from "react-icons/hi";
+import { convertFileToBAse64 } from "../utils/utils";
 
 function CreateRecipesPage() {
-  const [open, setOpen] = useState({ status: false, title: "" });
-  const [newStep, setNewStep] = useState(true);
-  const [editId, setEditId] = useState("");
-  const [stepToEdit, setStepToEdit] = useState("");
+  const [openStepModal, setOpenStepModal] = useState({
+    status: false,
+    stepIndex: "",
+  });
+  const [creatingNewStep, setCreatingNewStep] = useState(true);
+  const [stepToEditIndex, setStepToEditIndex] = useState("");
   const [editingStep, setEditingStep] = useState(false);
-  const [stepInput, setStepInput] = useState("");
-
+  const [stepText, setStepText] = useState("");
+  const [files, setFiles] = useState(null);
+  const [images, setImages] = useState([]);
   const { id } = useParams();
   const formData = new FormData();
   const dispatch = useDispatch();
@@ -43,15 +47,11 @@ function CreateRecipesPage() {
   const {
     isLoading,
     instructions,
-    image: recipeImage,
     name,
-    category,
     description,
     equipments,
     ingredients,
   } = useSelector((store) => store.singleRecipe);
-
-  const { image, isLoading: imageLoading } = useSelector((s) => s.files);
 
   const handleEventChange = (input) => {
     const name = input.name;
@@ -63,50 +63,60 @@ function CreateRecipesPage() {
     }
   };
   const handleImageUpload = (e) => {
+    setImages([]);
     const input = e.target;
-    const file = input.files[0];
-    formData.append("image", file);
-    dispatch(uploadImage(formData));
+    const files = input.files;
+    setFiles(files);
+    for (let i = 0; i < files.length; i++) {
+      convertFileToBAse64(files[i])
+        .then((result) => {
+          setImages((old) => {
+            return [...old, result];
+          });
+        })
+        .catch((err) => console.log(err));
+    }
+    console.log(input.files);
   };
 
   const handleSubmit = (e) => {
     e.preventDefault();
+    console.log(files.length);
+    for (let i = 0; i < files.length; i++) {
+      formData.append(`images`, files[i]);
+    }
+
+    formData.append("name", name);
+    formData.append("description", description);
+    equipments.forEach((item) => {
+      formData.append("equipments", item);
+    });
+    ingredients.forEach((item) => {
+      formData.append("ingredients", item);
+    });
+    formData.append(`instructions`, JSON.stringify(instructions));
     if (recipeToEdit?.isEditing) {
       dispatch(
         editRecipe({
           editId: id,
-          name,
-          description,
-          category,
-          equipments,
-          ingredients,
-          instructions,
-          image,
+          formData,
         })
       );
       localStorage.removeItem("Mama-recipe-edit-recipe");
     } else {
-      dispatch(
-        createRecipe({
-          name,
-          description,
-          category,
-          equipments,
-          ingredients,
-          instructions,
-          image,
-        })
-      );
-      setNewStep(true);
+      dispatch(createRecipe(formData));
+      setCreatingNewStep(true);
     }
   };
 
   useEffect(() => {
-    if (editId && editingStep) {
-      const { step } = instructions.find((item) => item.id === editId);
-      ref.current.value = step;
+    if (stepToEditIndex && editingStep) {
+      const { details } = instructions.find(
+        (item) => item.step === stepToEditIndex
+      );
+      ref.current.value = details;
     }
-  }, [editId]);
+  }, [stepToEditIndex]);
 
   useEffect(() => {
     if (localStorageInfo) {
@@ -138,17 +148,15 @@ function CreateRecipesPage() {
       <h3 className='text-3xl font-semibold capitalize text-center my-4 text-grey'>
         Create a New Recipe
       </h3>
-      <div className='mb-10 w-28  aspect-square mx-auto flex items-center bg-orange mt-7 justify-center rounded-full'>
-        {imageLoading ? (
-          <Loading small={true} />
-        ) : (
+      {images.map((image) => (
+        <div className='mb-10 w-28  aspect-square mx-auto flex items-center bg-orange mt-7 justify-center rounded-full'>
           <img
             src={`${image ? image : recipeToEdit?.image}`}
             alt=''
             className='object-cover h-full w-full rounded-full'
           />
-        )}
-      </div>
+        </div>
+      ))}
       <form onSubmit={handleSubmit}>
         <div className='block'>
           <label htmlFor='file' className='text-grey mr-5  '>
@@ -158,6 +166,7 @@ function CreateRecipesPage() {
             onChange={handleImageUpload}
             type='file'
             id='file'
+            multiple={true}
             accept='.jpeg,.jpg,.png'
             name='image'
             readOnly={isLoading ? true : false}
@@ -220,82 +229,88 @@ function CreateRecipesPage() {
           </div>
           <div className=' relative pb-3'>
             {instructions?.map((instruction, index) => {
-              const { id, step } = instruction;
+              const { step, details } = instruction;
+
               return (
                 <div
-                  key={id}
+                  key={step}
                   className='relative mb-1 text-grey   block bg-transparent  w-full  pb-3 px-3  flex gap-2 items-start'
                 >
                   <AiOutlineCheck className='text-3xl text-green-600' />
                   <h3 className='text-orange font-bold'>Step{index + 1}:</h3>
                   <p className='break-all w-11/12 bg-transparent pr-8 resize-none'>
-                    {step}
+                    {details}
                   </p>
                   <div className='relative'>
                     <FiMoreHorizontal
                       className={`${
-                        open.title === instruction.id
+                        openStepModal.stepIndex === instruction.step &&
+                        openStepModal.status
                           ? "text-orange text-xl"
                           : "text-grey text-xl"
                       }`}
                       onClick={() => {
-                        setOpen({
-                          status: !open.status,
-                          title: instruction.id,
+                        setOpenStepModal({
+                          status: !openStepModal.status,
+                          stepIndex: instruction.step,
                         });
                       }}
                     />
-                    {open.title === instruction.id && open.status === true && (
-                      <StepToggle
-                        id={instruction.id}
-                        setEditId={setEditId}
-                        setNewStep={setNewStep}
-                        setEditingStep={setEditingStep}
-                        setOpen={setOpen}
-                      />
-                    )}
+                    {openStepModal.stepIndex === instruction.step &&
+                      openStepModal.status && (
+                        <StepToggle
+                          step={instruction.step}
+                          setStepToEditIndex={setStepToEditIndex}
+                          setCreatingNewStep={setCreatingNewStep}
+                          setEditingStep={setEditingStep}
+                          setOpenStepModal={setOpenStepModal}
+                        />
+                      )}
                   </div>
                 </div>
               );
             })}
-            {newStep && (
-              <input
-                name='steps'
-                ref={ref}
-                readOnly={isLoading ? true : false}
-                defaultValue={`${editingStep ? stepToEdit : ""}`}
-                onKeyUp={(e) => setStepInput(e.target.value)}
-                placeholder='Type here...'
-                className='mb-6 text-grey  block bg-transparent border-orange border-b-2  w-full rounded  pb-3 px-3  flex gap-2 items-center'
-              ></input>
-            )}
-            {newStep ? (
-              <button
-                className='cursor-pointer text-center underline mx-auto flex'
-                type='button'
-                onClick={() => {
-                  const newId = new Date(Date.now()).getTime();
-                  setNewStep(false);
-                  if (stepInput.length >= 1) {
+            {creatingNewStep ? (
+              <>
+                <input
+                  ref={ref}
+                  readOnly={isLoading}
+                  onKeyUp={(e) => setStepText(e.target.value)}
+                  placeholder='Type here...'
+                  className='mb-6 text-grey  block bg-transparent border-orange border-b-2  w-full rounded  pb-3 px-3  flex gap-2 items-center'
+                ></input>
+
+                <button
+                  className='cursor-pointer text-center underline mx-auto flex'
+                  type='button'
+                  onClick={() => {
+                    console.log(instructions);
+                    setCreatingNewStep(false);
+                    if (!(stepText.length >= 1)) return;
                     if (editingStep) {
-                      dispatch(editStep({ id: editId, step: stepInput }));
-                      setEditId("");
+                      dispatch(
+                        editStep({ step: stepToEditIndex, details: stepText })
+                      );
+                      setStepToEditIndex("");
                       setEditingStep(false);
-                      ref.current.value = "";
                     } else {
-                      dispatch(createStep({ id: newId, step: stepInput }));
-                      ref.current.value = "";
+                      dispatch(
+                        createStep({
+                          step: instructions.length + 1,
+                          details: stepText,
+                        })
+                      );
                     }
-                  }
-                }}
-              >
-                {editingStep ? "Edit" : "Add"}
-              </button>
+                    ref.current.value = "";
+                  }}
+                >
+                  {editingStep ? "Edit" : "Add"}
+                </button>
+              </>
             ) : (
               <h5
                 onClick={() => {
-                  setNewStep(true);
-                  setStepInput("");
+                  setCreatingNewStep(true);
                 }}
                 className='flex items-center  gap-1 text-grey  cursor-pointer text-sm absolute right-0'
               >
@@ -307,7 +322,7 @@ function CreateRecipesPage() {
         </div>
         <button
           type='submit'
-          disabled={isLoading ? true : false}
+          disabled={isLoading}
           className={
             "cursor-pointer capitalize border-2 py-2 px-14  rounded  mx-auto flex my-12 text-grey border-orange"
           }

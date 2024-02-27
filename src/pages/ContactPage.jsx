@@ -2,7 +2,7 @@ import React, { useRef, useState } from "react";
 import Footer from "../components/Footer";
 import Hero from "../components/Hero";
 import emailjs from "@emailjs/browser";
-import { autoResize } from "../utils/autoResize";
+import { autoResize } from "../utils/utils";
 import { toast } from "react-toastify";
 function ContactPage() {
   const [isLoading, setIsLoading] = useState(false);

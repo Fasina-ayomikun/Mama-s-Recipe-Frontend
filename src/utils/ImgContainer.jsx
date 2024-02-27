@@ -16,7 +16,7 @@ function ImgContainer({ user, small }) {
       }`}
     >
       <img
-        src={user?.profileImage}
+        src={user?.profileImage?.url}
         alt=''
         className='aspect-square object-cover rounded-full'
       />

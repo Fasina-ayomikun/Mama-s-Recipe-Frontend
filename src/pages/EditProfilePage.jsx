@@ -10,7 +10,6 @@ import { getFromLocalStorage } from "../utils/localStorage";
 function EditProfilePage() {
   const user = getFromLocalStorage();
   const [value, setValue] = useState(user);
-  // const [imageLoading, setImageLoading] = useState(true);
   const dispatch = useDispatch();
   const { image, isLoading: imageLoading } = useSelector((s) => s.files);
   const { isEdited } = useSelector((s) => s.user);
@@ -37,9 +36,7 @@ function EditProfilePage() {
   const handleImageUpload = (e) => {
     const input = e.target;
     const file = input.files[0];
-//     formData.append('file', file);
-//     formData.append('upload_preset', 'YOUR_UPLOAD_PRESET');
-    formData.append("image", file);
+   formData.append("image", file);
     dispatch(uploadImage(formData));
   };
 
@@ -52,7 +49,6 @@ function EditProfilePage() {
 
   useEffect(() => {
     if (image) {
-      // setImageLoading(false);
       value.profileImage = image;
     }
   }, [image]);

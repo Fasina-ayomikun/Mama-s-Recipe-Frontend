@@ -15,6 +15,7 @@ import { logoutUser } from "../features/users/userSlice";
 import { useDispatch, useSelector } from "react-redux";
 import { getFromLocalStorage } from "../utils/localStorage";
 import { setCloseSidebar, setOpenSidebar } from "../features/modal/modalSlice";
+import { navLinks } from "../utils/utils";
 function Sidebar() {
   const user = getFromLocalStorage();
   const navigate = useNavigate();
@@ -74,42 +75,17 @@ function Sidebar() {
         </>
       )}
       <ul className='pl-6 mt-8 flex flex-col items-start justify-between text-grey gap-6 text-lg capitalize'>
-        <li onClick={() => dispatch(setCloseSidebar())}>
-          <NavLink
-            className='flex items-center gap-2'
-            to='/'
-            activeClassName='active'
-          >
-            <ImHome /> Home
-          </NavLink>
-        </li>
-        <li onClick={() => dispatch(setCloseSidebar())}>
-          <NavLink
-            className='flex items-center gap-2'
-            to='/about'
-            activeClassName='active'
-          >
-            <BsQuestionCircle className='-grey' /> about
-          </NavLink>
-        </li>
-        <li onClick={() => dispatch(setCloseSidebar())}>
-          <NavLink
-            className='flex items-center gap-2'
-            to='/recipes'
-            activeClassName='active'
-          >
-            <MdOutlineFastfood /> recipes
-          </NavLink>
-        </li>
-        <li onClick={() => dispatch(setCloseSidebar())}>
-          <NavLink
-            to='/contact'
-            className='flex items-center gap-2'
-            activeClassName='active'
-          >
-            <MdContacts /> contact
-          </NavLink>
-        </li>
+        {navLinks.map(({ name, url }, index) => (
+          <li onClick={() => dispatch(setCloseSidebar())}>
+            <NavLink
+              className='flex items-center gap-2'
+              to={url}
+              activeClassName='active'
+            >
+              {name}
+            </NavLink>
+          </li>
+        ))}
         {user ? (
           <>
             <li onClick={() => dispatch(setCloseSidebar())}>

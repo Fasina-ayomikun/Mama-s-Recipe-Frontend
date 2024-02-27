@@ -9,9 +9,9 @@ import logo from "../images/logo-white.png";
 import ImgContainer from "../utils/ImgContainer";
 import { getFromLocalStorage } from "../utils/localStorage";
 import Sidebar from "./Sidebar";
+import { navLinks } from "../utils/utils";
 function Navbar() {
   const [stickyNav, setStickyNav] = useState(false);
-  // const [user, setUSer] = useState({});
   const dispatch = useDispatch();
   let user = getFromLocalStorage();
 
@@ -46,27 +46,13 @@ function Navbar() {
 
         <Sidebar />
         <ul className='sm:hidden lg:flex pl-6  flex items-center  justify-between text-grey gap-8 text-md capitalize'>
-          <li>
-            <NavLink to='/' activeClassName='active'>
-              Home
-            </NavLink>
-          </li>
-          <li>
-            <NavLink to='/about' activeClassName='active'>
-              about
-            </NavLink>
-          </li>
-          <li>
-            <NavLink to='/recipes' activeClassName='active'>
-              {" "}
-              recipes
-            </NavLink>
-          </li>
-          <li>
-            <NavLink to='/contact' activeClassName='active'>
-              contact
-            </NavLink>
-          </li>
+          {navLinks.map(({ name, url }, index) => (
+            <li key={index}>
+              <NavLink to={url} activeClassName='active'>
+                {name}
+              </NavLink>
+            </li>
+          ))}
 
           {user?.email ? (
             <>

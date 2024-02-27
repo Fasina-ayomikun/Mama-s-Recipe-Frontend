@@ -4,12 +4,18 @@ import { Link } from "react-router-dom";
 import { ImgContainer, Stars } from "../utils";
 import { checkUser } from "../utils/functions";
 function ShowRecipe({ recipe }) {
-  const { averageRatings, name, image, noOfReviews, user: recipeUser } = recipe;
+  const {
+    averageRatings,
+    name,
+    images,
+    noOfReviews,
+    user: recipeUser,
+  } = recipe;
   return (
     <div className=' w-full  h-full '>
       <div className='relative h-48  w-full max-h-80 main-image'>
         <img
-          src={image}
+          src={images[0]?.url}
           alt=''
           className='rounded max-height h-full w-full object-cover'
         />
