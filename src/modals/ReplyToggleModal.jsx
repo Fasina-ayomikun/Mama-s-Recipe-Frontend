@@ -10,54 +10,51 @@ import {
   setRatings,
 } from "../features/singleReview/singleReviewSlice";
 import { checkUserPermission } from "../utils/functions";
+import {
+  deleteReply,
+  setEditReply,
+  setEditReplyDetails,
+} from "../features/singleReply/singleReplySlice";
 
-function ReviewToggleModel({ review, setOpenReview, closeModal }) {
+function ReplyToggleModal({ reply, setOpen }) {
   const dispatch = useDispatch();
 
   return (
     <ul className='addIndex absolute w-48 mt-6 sm:right-28   rounded px-3 py-2  bg-zinc-300    text-black text-md '>
       <li className='my-3 cursor-pointer'>
         <Link
-          to={`/profile/${review?.user?._id}`}
+          to={`/profile/${reply?.commenterId?._id}`}
           className='flex items-center gap-3'
         >
           <CgProfile className='text-2xl text-black opacity-60' /> View profile
         </Link>
       </li>
-      {checkUserPermission(review?.user?.email) && (
+      {checkUserPermission(reply?.commenterId?.email) && (
         <>
           <li
             className='my-3 flex items-center gap-3 cursor-pointer'
             onClick={() => {
-              dispatch(setEditReview(review?._id));
+              dispatch(setEditReply(reply?._id));
               dispatch(
-                setEditReviewDetails({
-                  title: review.title,
-                  comment: review.comment,
-                  ratings: review.ratings,
+                setEditReplyDetails({
+                  comment: reply.comment,
                 })
               );
-              dispatch(setRatings(review.ratings - 1));
-              setOpenReview();
-              closeModal();
+              setOpen(false);
             }}
           >
             <AiFillEdit className='text-xl text-black opacity-60 ' /> Edit
-            review
+            Comment
           </li>
           <li
             onClick={() => {
               dispatch(
-                deleteReview({
-                  reviewId: review._id,
-                  recipeId: review.recipe._id,
-                })
+                deleteReply({ id: reply._id, reviewId: reply?.reviewId })
               );
-              closeModal();
             }}
             className='my-3 flex items-center gap-3 cursor-pointer'
           >
-            <FaTrash className='text-md text-black opacity-60' /> Delete review
+            <FaTrash className='text-md text-black opacity-60' /> Delete Comment
           </li>
         </>
       )}
@@ -65,4 +62,4 @@ function ReviewToggleModel({ review, setOpenReview, closeModal }) {
   );
 }
 
-export default ReviewToggleModel;
+export default ReplyToggleModal;

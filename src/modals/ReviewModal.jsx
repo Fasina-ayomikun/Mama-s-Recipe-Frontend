@@ -44,13 +44,13 @@ function ReviewModal({ id, setOpenReview }) {
 
   if (isLoading) {
     return (
-      <section className='h-screen z-10 w-screen bg-black fixed top-0 left-0'>
+      <section className='h-screen z-10 w-screen bg-white fixed top-0 left-0'>
         <Loading small={false} />
       </section>
     );
   }
   return (
-    <section className='fixed w-screen  z-10 h-screen top-0 left-0 bg-black  flex items-center justify-center mx-auto'>
+    <section className='fixed w-screen  z-10 h-screen top-0 left-0 bg-white  flex items-center justify-center mx-auto'>
       <MdClose
         onClick={() => {
           setOpenReview(false);
@@ -58,11 +58,11 @@ function ReviewModal({ id, setOpenReview }) {
         }}
         className='absolute  right-10 top-10 text-3xl'
       ></MdClose>
-      <div className='lg:w-2/4 sm:11/12 text-grey py-5 px-4 rounded'>
+      <div className='lg:w-2/4 sm:11/12 text-zinc-800 py-5 px-4 rounded'>
         <h3 className='text-3xl font-extrabold tracking-wide text-center'>
           Review
         </h3>
-        <div className='stars  my-5  text-4xl text-orange flex items-center justify-center '>
+        <div className='stars  my-5  text-4xl text-gold flex items-center justify-center '>
           <CreateStars />
         </div>
         <input
@@ -71,7 +71,7 @@ function ReviewModal({ id, setOpenReview }) {
           placeholder='Title*'
           defaultValue={title}
           onKeyUp={(e) => handleEventChange(e.target)}
-          className='text-grey block bg-transparent border-orange border-b-2  w-full rounded h-10 px-3 mb-5'
+          className='text-zinc-800 block bg-transparent border-dark-green border-b-2  w-full rounded h-10 px-3 mb-5'
         />
         <input
           type='text'
@@ -79,11 +79,11 @@ function ReviewModal({ id, setOpenReview }) {
           defaultValue={comment}
           placeholder='Details'
           onKeyUp={(e) => handleEventChange(e.target)}
-          className=' text-grey block bg-transparent border-orange  border-b-2  w-full rounded h-10 px-3 mb-5'
+          className=' text-zinc-800 block bg-transparent border-dark-green  border-b-2  w-full rounded h-10 px-3 mb-5'
         />
         <button
           onClick={() => handleSubmit()}
-          className='capitalize border-b-2 rounded mx-auto flex  border-orange'
+          className='capitalize border-b-2 rounded mx-auto flex  border-dark-green'
         >
           {isEditing ? "Edit Review" : "add Review"}
         </button>

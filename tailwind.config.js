@@ -17,9 +17,11 @@ module.exports = {
         background: "url('/src/images/hero.jpg')",
       },
       colors: {
-        orange: "#DF9A57",
+        green: "#70e000",
         black: "#000",
         grey: "#C3BFBF",
+        "dark-green": "#38b000",
+        gold: "#ff8800",
       },
       spacing: {
         "8xl": "96rem",

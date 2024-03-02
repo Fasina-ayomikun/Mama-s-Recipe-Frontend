@@ -12,7 +12,7 @@ function NavLinks({ setOpenSideBar, isOpen }) {
   const dispatch = useDispatch();
 
   return (
-    <ul className='pl-6  flex lg:flex-row sm:flex-col  lg:items-center sm:items-start justify-between text-grey gap-8 lg:text-md sm:text-xl capitalize'>
+    <ul className='pl-6  flex lg:flex-row sm:flex-col  lg:items-center sm:items-start justify-between text-zinc-800 gap-8 lg:text-md sm:text-xl capitalize'>
       <li>
         <NavLink
           onClick={() => setOpenSideBar(false)}

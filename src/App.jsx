@@ -63,14 +63,7 @@ function App() {
             </ProtectedRoute>
           }
         />
-        <Route
-          path='recipes/:id'
-          element={
-            <ProtectedRoute id={user?.email}>
-              <SingleRecipePage />
-            </ProtectedRoute>
-          }
-        />
+        <Route path='recipes/:id' element={<SingleRecipePage />} />
         <Route path='*' element={<ErrorPage />} />
       </Routes>
     </BrowserRouter>

@@ -34,8 +34,8 @@ export const loginUser = createAsyncThunk(
 );
 export const editUser = createAsyncThunk(
   "auth/editUser",
-  async (user, thunkAPI) => {
-    return editUserThunk(`/users/${user._id}`, user, thunkAPI);
+  async ({ id, formData }, thunkAPI) => {
+    return editUserThunk(`/users/${id}`, formData, thunkAPI);
   }
 );
 export const singleUser = createAsyncThunk(

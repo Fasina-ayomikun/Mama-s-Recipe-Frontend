@@ -16,22 +16,21 @@ function Hero({ text }) {
     window.removeEventListener("scroll", eventListener);
   }, []);
   return (
-    <section className='w-screen  h-screen bg-background bg-cover bg-no-repeat'>
+    <section className='w-screen relative flex justify-between   h-screen bg-background bg-cover bg-no-repeat flex-col'>
+      <Navbar />
       <div
-        className={`w-screen h-screen bg-black   flex justify-center items-center${
-          stickyNav || isSidebarOpen ? "" : " opacity-90"
+        className={`w-screen h-screen bg-black   absolute top-0 left-0 right-0 bottom-0 ${
+          stickyNav || isSidebarOpen ? "" : " opacity-50"
         }`}
-      >
-        <div className='w-11/12 h-5/6   md:border-2 rounded border-orange sm:px-2 md:px-8'>
-          <Navbar />
-          <div className=' h-4/5 grid place-content-center  '>
-            <h1 className='font-extrabold  tracking-widest uppercase text-center h1-mt text-orange lg:text-5xl  md:text-4xl sm:text-3xl'>
-              {text}
-            </h1>
-            <p className='text-center italic md:text-md sm:text-sm text-grey mt-2'>
-              My home made delicacies
-            </p>
-          </div>
+      ></div>
+      <div className='w-screen  h-3/4 z-10  sm:px-2'>
+        <div className=' h-4/5 grid place-content-center  '>
+          <h1 className='font-extrabold  tracking-widest uppercase text-center h1-mt text-white lg:text-6xl  md:text-5xl sm:text-3xl'>
+            {text}
+          </h1>
+          <p className='text-center italic md:text-xl sm:text-lg text-green shadow-black  mt-2'>
+            Explore your favorite homemade recipe
+          </p>
         </div>
       </div>
     </section>

@@ -9,7 +9,7 @@
   }
 }
 .active {
-  color: #df9a57;
+  color: #70e000;
 }
 
 .h1-mt {
@@ -17,12 +17,11 @@
 }
 body {
   font-family: "Inter", sans-serif;
-  background-color: #000;
-  color: #df9a57;
+  color: #38b000;
   overflow-x: hidden;
 }
-.main-image div {
-  visibility: hidden;
+.main-image .gradient {
+  display: none;
 }
 textarea {
   overflow-y: hidden;
@@ -34,8 +33,8 @@ textarea {
   appearance: none;
 }
 @media (hover: hover) {
-  .main-image:hover div {
-    visibility: visible;
-    transition: 0.3s ease-in;
+  .main-image:hover .gradient {
+    display: block;
+    transition: 0.5s ease-in-out;
   }
 }

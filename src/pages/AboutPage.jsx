@@ -5,10 +5,10 @@ import Navbar from "../components/Navbar";
 
 function AboutPage() {
   return (
-    <section className='text-grey'>
+    <section className='text-zinc-800'>
       <Navbar />
 
-      <hr className='border-orange'></hr>
+      <hr className='border-dark-green'></hr>
       <About />
       <Footer />
     </section>

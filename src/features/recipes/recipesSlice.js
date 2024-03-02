@@ -1,20 +1,29 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { toast } from "react-toastify";
-import { handleError } from "../../utils/handleError";
-import { getAllRecipesThunk } from "./recipesThunk";
+import {
+  getAllRecipesThunk,
+  getSingleUserRecipeThunk,
+  getUserFavoriteRecipeThunk,
+} from "./recipesThunk";
 
 const initialState = {
   isLoading: true,
 
   isError: false,
   recipes: [],
-  filteredRecipes: [],
 };
 export const getAllRecipes = createAsyncThunk(
   "recipes/allRecipes",
   getAllRecipesThunk
 );
-
+export const getSingleUserRecipe = createAsyncThunk(
+  "recipes/singleUserRecipe",
+  getSingleUserRecipeThunk
+);
+export const getUserFavoriteRecipe = createAsyncThunk(
+  "recipes/singleUserFavoriteRecipe",
+  getUserFavoriteRecipeThunk
+);
 const recipesSlice = createSlice({
   name: "recipes",
   initialState,
@@ -50,12 +59,46 @@ const recipesSlice = createSlice({
         state.isLoading = false;
         state.isError = false;
         state.recipes = payload.recipes;
-        state.filteredRecipes = [...payload.recipes];
       })
       .addCase(getAllRecipes.rejected, (state, { payload }) => {
         state.isLoading = false;
         state.isError = true;
-        handleError(payload);
+
+        toast.warning(payload);
+      })
+      .addCase(getUserFavoriteRecipe.pending, (state) => {
+        state.isLoading = true;
+        state.isError = false;
+      })
+      .addCase(getUserFavoriteRecipe.fulfilled, (state, { payload }) => {
+        state.isLoading = false;
+        state.isError = false;
+        state.recipes = payload.recipes;
+      })
+      .addCase(getUserFavoriteRecipe.rejected, (state, { payload }) => {
+        state.isLoading = false;
+        state.isError = true;
+
+        toast.warning(payload);
+      })
+      .addCase(getSingleUserRecipe.pending, (state) => {
+        state.isLoading = true;
+        state.isError = false;
+      })
+      .addCase(getSingleUserRecipe.fulfilled, (state, { payload }) => {
+        toast.success(payload.msg);
+        return {
+          ...state,
+          isLoading: false,
+          isError: false,
+          recipes: payload.recipes,
+        };
+      })
+      .addCase(getSingleUserRecipe.rejected, (state, { payload }) => {
+        state.isLoading = false;
+        state.isError = true;
+
+        toast.warning(payload);
       });
   },
 });

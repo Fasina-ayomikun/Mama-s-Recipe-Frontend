@@ -1,12 +1,13 @@
 import React from "react";
 
-function SingleStep({ index, step }) {
+function SingleStep({ index, instruction }) {
+  const { step, details } = instruction;
   return (
     <p className='text-md mb-4 '>
-      <span className='capitalize mr-2 text-orange  underline font-semibold text-lg'>
-        Step {index + 1}:
+      <span className='capitalize mr-2 text-dark-green  underline font-semibold text-lg'>
+        Step {step}:
       </span>
-      {step.step}
+      {details}
     </p>
   );
 }

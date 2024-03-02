@@ -1,6 +1,5 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { toast } from "react-toastify";
-import { handleError } from "../../utils/handleError";
 import { getRecipeReviewThunk } from "./reviewsThunk";
 
 const initialState = {
@@ -35,7 +34,8 @@ const reviewsSlice = createSlice({
       .addCase(getRecipeReviews.rejected, (state, { payload }) => {
         state.isLoading = false;
         state.isError = true;
-        handleError(payload);
+
+        toast.warning(payload);
       });
   },
 });

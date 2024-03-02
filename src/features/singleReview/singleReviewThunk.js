@@ -1,6 +1,5 @@
 import { toast } from "react-toastify";
 import { customUrl } from "../../utils/axios";
-import { checkUserAuthorization } from "../../utils/functions";
 import { getRecipeReviews } from "../reviews/reviewsSlice";
 import { getSingleRecipe } from "../singleRecipe/singleRecipeSlice";
 import { clearState } from "./singleReviewSlice";
@@ -15,7 +14,7 @@ const createReviewThunk = async (body, thunkAPI) => {
     thunkAPI.dispatch(clearState());
     return resp.data;
   } catch (error) {
-    return checkUserAuthorization(error, thunkAPI);
+    return thunkAPI.rejectWithValue(error.response.data.error.msg);
   }
 };
 const editReviewThunk = async (body, thunkAPI) => {
@@ -35,7 +34,7 @@ const editReviewThunk = async (body, thunkAPI) => {
     thunkAPI.dispatch(clearState());
     return resp.data;
   } catch (error) {
-    return checkUserAuthorization(error, thunkAPI);
+    return thunkAPI.rejectWithValue(error.response.data.error.msg);
   }
 };
 const deleteReviewThunk = async (body, thunkAPI) => {
@@ -54,7 +53,7 @@ const deleteReviewThunk = async (body, thunkAPI) => {
     thunkAPI.dispatch(getSingleRecipe(recipeId));
     return resp.data;
   } catch (error) {
-    return checkUserAuthorization(error, thunkAPI);
+    return thunkAPI.rejectWithValue(error.response.data.error.msg);
   }
 };
 export { deleteReviewThunk, editReviewThunk, createReviewThunk };

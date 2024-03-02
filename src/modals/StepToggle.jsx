@@ -14,7 +14,7 @@ function StepToggle({
   const dispatch = useDispatch();
 
   return (
-    <ul className='cursor-pointer absolute z-10 w-36 mt-3 sm:right-2  rounded px-3 py-2  bg-zinc-800 text-grey text-md '>
+    <ul className='cursor-pointer absolute z-10 w-36 mt-3 sm:right-2  rounded px-3 py-2  bg-zinc-800 text-zinc-800 text-md '>
       <li
         className='my-3 flex items-center gap-3'
         onClick={(e) => {

@@ -8,11 +8,11 @@ function ListItems({ index, item, type }) {
   return (
     <li
       key={index}
-      className='bg-zinc-700  px-3 rounded flex items-center gap-1 text-grey'
+      className='bg-zinc-400  px-3 rounded flex items-center gap-1 text-zinc-800'
     >
       {item}
       <MdClose
-        className='text-zinc-400 text-sm'
+        className='text-zinc-800 text-sm'
         onClick={() => {
           dispatch(deleteTags({ type, index }));
         }}

@@ -1,9 +1,8 @@
 import { toast } from "react-toastify";
 import { customUrl } from "../../utils/axios";
-import { checkUserAuthorization } from "../../utils/functions";
-import { clearImageState } from "../files/filesSlice";
 import { getAllRecipes } from "../recipes/recipesSlice";
-import { clearState } from "./singleRecipeSlice";
+import { clearState, getSingleRecipe } from "./singleRecipeSlice";
+import { initialQuery } from "../../utils/utils";
 
 const getSingleRecipeThunk = async (id, thunkAPI) => {
   try {
@@ -12,7 +11,7 @@ const getSingleRecipeThunk = async (id, thunkAPI) => {
     });
     return resp.data;
   } catch (error) {
-    return checkUserAuthorization(error, thunkAPI);
+    return thunkAPI.rejectWithValue(error.response.data.error.msg);
   }
 };
 
@@ -25,10 +24,12 @@ const createRecipeThunk = async (body, thunkAPI) => {
       },
     });
     thunkAPI.dispatch(clearState());
-    thunkAPI.dispatch(clearImageState());
+
+    thunkAPI.dispatch(getAllRecipes(initialQuery));
+
     return resp.data;
   } catch (error) {
-    return checkUserAuthorization(error, thunkAPI);
+    return thunkAPI.rejectWithValue(error.response.data.error.msg);
   }
 };
 const editRecipeThunk = async (body, thunkAPI) => {
@@ -39,10 +40,10 @@ const editRecipeThunk = async (body, thunkAPI) => {
     });
     thunkAPI.dispatch(clearState());
 
-    thunkAPI.dispatch(clearImageState());
+    thunkAPI.dispatch(getSingleRecipe(editId));
     return resp.data;
   } catch (error) {
-    return checkUserAuthorization(error, thunkAPI);
+    return thunkAPI.rejectWithValue(error.response.data.error.msg);
   }
 };
 const deleteRecipeThunk = async (id, thunkAPI) => {
@@ -54,12 +55,12 @@ const deleteRecipeThunk = async (id, thunkAPI) => {
         withCredentials: true,
       }
     );
-    thunkAPI.dispatch(getAllRecipes());
+    thunkAPI.dispatch(getAllRecipes(initialQuery));
 
     toast.success(resp.data.msg);
     return resp.data;
   } catch (error) {
-    return checkUserAuthorization(error, thunkAPI);
+    return thunkAPI.rejectWithValue(error.response.data.error.msg);
   }
 };
 export {

@@ -1,43 +1,63 @@
 import React from "react";
-import { AiOutlineSearch } from "react-icons/ai";
 import { Link } from "react-router-dom";
-import { ImgContainer, Stars } from "../utils";
-import { checkUser } from "../utils/functions";
+import { ImgContainer } from "../utils";
+import { checkUserPermission } from "../utils/functions";
+import { FaComments } from "react-icons/fa";
+import { FcLike } from "react-icons/fc";
+
 function ShowRecipe({ recipe }) {
   const {
-    averageRatings,
     name,
     images,
+    description,
     noOfReviews,
+    noOfLikes,
     user: recipeUser,
   } = recipe;
+
   return (
-    <div className=' w-full  h-full '>
-      <div className='relative h-48  w-full max-h-80 main-image'>
+    <div className=' w-full mb-16  h-full border rounded border-gray-200 relative'>
+      <div className='relative h-56  w-full max-h-80 main-image'>
         <img
           src={images[0]?.url}
           alt=''
-          className='rounded max-height h-full w-full object-cover'
+          className='rounded relative max-height h-full w-full object-cover'
         />
-        <Link to={`/recipes/${recipe._id}`}>
-          <div className='absolute left-0 top-0 grid place-content-center w-full h-full bg-black opacity-80 rounded'>
-            <AiOutlineSearch className='text-4xl' />
+        <div className='bg-green z-10 bg-opacity-70 flex absolute bottom-0   left-0 right-0 items-center justify-between px-4 '>
+          <h3 className='text-white m-0 text-md lg:text-lg xl:text-xl capitalize'>
+            {checkUserPermission(recipeUser.email)
+              ? "You"
+              : recipeUser.firstName + " " + recipeUser.lastName}
+          </h3>
+
+          <div className='aspect-square rounded-full -mb-9 w-20 mt-2 border-4  border-green'>
+            <ImgContainer user={recipeUser} small={true} />
           </div>
+        </div>
+
+        <Link to={`/recipes/${recipe._id}`}>
+          <div className='absolute gradient left-0 top-0 grid place-content-center w-full h-full bg-black opacity-50  rounded  transition-opacity'></div>
         </Link>
       </div>
-      <div className='mt-3 flex items-start flex-wrap justify-between gap-3 break-all'>
-        <h4 className=' text-md  sm:order-last'>{name} </h4>
-        <h6 className='md:hidden underline text-zinc-300 text-xs '>
-          <Link to={`/recipes/${recipe._id}`}>Read more</Link>
-        </h6>
-      </div>
-      <div className='stars mt-2 text-xs flex items-center '>
-        <Stars ratings={averageRatings} />
-        <span className='text-grey text-xs ml-2'>( {noOfReviews} )</span>
-      </div>
-      <div className='flex items-center gap-3 mt-5'>
-        <ImgContainer user={recipe.user} small={true} />
-        <p className='text-sm italic'>by {checkUser(recipeUser)}</p>
+      <h4 className=' px-5 text-2xl font-semibold break-all capitalize mt-12 text-black text-center  '>
+        {name}{" "}
+      </h4>
+      <p className='mt-2  text-sm text-center   break-all text-gray-500 px-6 lg:px-12'>
+        {description.substring(0, 100)}
+      </p>
+      <h6 className='md:hidden  text-dark-green text-center text-xs '>
+        <Link to={`/recipes/${recipe._id}`}>Read more</Link>
+      </h6>
+
+      <div className='flex mt-6 absolute bottom-0 left-0 right-0'>
+        <div className='w-full py-5 border-t border-r h-7 flex items-center gap-1 justify-center'>
+          <FcLike />
+          <p className=' text-sm text-gray-700  gap-1'>{noOfLikes}</p>
+        </div>
+        <div className='w-full py-5 border-t border-r h-7 flex items-center gap-1 justify-center'>
+          <FaComments />
+          <p className=' text-sm text-gray-700  gap-1'>{noOfReviews}</p>
+        </div>
       </div>
     </div>
   );

@@ -1,6 +1,4 @@
 import { customUrl } from "../../utils/axios";
-import { setToLocalStorage } from "../../utils/localStorage";
-import { clearImageState } from "../files/filesSlice";
 const registerUserThunk = async (url, user, thunkAPI) => {
   try {
     const resp = await customUrl.post(url, user, {
@@ -12,7 +10,7 @@ const registerUserThunk = async (url, user, thunkAPI) => {
     console.log(resp);
     return resp.data;
   } catch (error) {
-    return thunkAPI.rejectWithValue(error.response.data.msg);
+    return thunkAPI.rejectWithValue(error.response.data.error.msg);
   }
 };
 const loginUserThunk = async (url, user, thunkAPI) => {
@@ -22,7 +20,8 @@ const loginUserThunk = async (url, user, thunkAPI) => {
     });
     return resp.data;
   } catch (error) {
-    return thunkAPI.rejectWithValue(error.response.data.msg);
+    console.log(error);
+    return thunkAPI.rejectWithValue(error.response.data.error.msg);
   }
 };
 const logoutUserThunk = async (url, thunkAPI) => {
@@ -33,16 +32,18 @@ const logoutUserThunk = async (url, thunkAPI) => {
 
     return resp.data;
   } catch (error) {
-    return thunkAPI.rejectWithValue(error.response.data.msg);
+    return thunkAPI.rejectWithValue(error.response.data.error.msg);
   }
 };
-const editUserThunk = async (url, user, thunkAPI) => {
+const editUserThunk = async (url, formData, thunkAPI) => {
   try {
-    const resp = await customUrl.patch(url, user, {
+    const resp = await customUrl.patch(url, formData, {
+      headers: {
+        "Content-Type": "multipart/form-data",
+      },
       withCredentials: true,
     });
-
-    thunkAPI.dispatch(clearImageState());
+    console.log(resp.data);
     return resp.data;
   } catch (error) {
     return thunkAPI.rejectWithValue(error.response.data.msg);

@@ -1,56 +1,42 @@
-import { AiFillEdit } from "react-icons/ai";
-import { FaTrash } from "react-icons/fa";
-import { CgProfile } from "react-icons/cg";
-import { Link, useNavigate } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
 import { deleteRecipe } from "../features/singleRecipe/singleRecipeSlice";
-import { checkUserPermission } from "../utils/functions";
 import { useEffect } from "react";
 import { getAllRecipes } from "../features/recipes/recipesSlice";
 
-function ToggleModal({ id, email, files }) {
+function ToggleModal({ setOpenDeleteModel, id }) {
   const dispatch = useDispatch();
   const navigate = useNavigate();
-  const { user } = useSelector((store) => store.singleRecipe);
 
   useEffect(() => {
     dispatch(getAllRecipes());
   }, []);
 
   return (
-    <ul className='absolute w-48 mt-6 sm:right-2  rounded px-3 py-2  bg-zinc-800 text-grey text-md '>
-      <li className='my-3'>
-        <Link to={`/profile/${user._id}`} className='flex items-center gap-3'>
-          <CgProfile className='text-2xl text-stone-500' /> View profile
-        </Link>
-      </li>{" "}
-      {checkUserPermission(email) && (
-        <>
-          <li
-            className='my-3'
+    <div className='fixed top-0 left-0 right-0 bottom-0  w-screen h-screen bg-black bg-opacity-60 flex items-center justify-center'>
+      <div className='w-2/3 h-44 bg-white max-w-xl rounded-lg p-8'>
+        <p className='font-bold text-center'>Are you sure?</p>
+        <div className='mt-7 flex items-center justify-center gap-4 '>
+          <button
             onClick={() => {
-              localStorage.setItem(
-                "Mama-recipe-edit-recipe",
-                JSON.stringify(files)
-              );
+              setOpenDeleteModel(false);
             }}
+            className='border-2 text-red-400  rounded-full py-2 px-6 bg-transparent text-sm border-red-400 w-full'
           >
-            <Link to={`/edit/${id}`} className='flex items-center gap-3'>
-              <AiFillEdit className='text-xl text-stone-500' /> Edit recipe
-            </Link>
-          </li>
-          <li
+            Cancel
+          </button>
+          <button
             onClick={() => {
               dispatch(deleteRecipe(id));
               navigate("/recipes");
             }}
-            className='my-3 flex items-center gap-3'
+            className='text-white  rounded-full py-2  w-full text-sm px-6 bg-dark-green '
           >
-            <FaTrash className='text-md text-stone-500' /> Delete recipe
-          </li>
-        </>
-      )}
-    </ul>
+            Confirm
+          </button>
+        </div>
+      </div>
+    </div>
   );
 }
 

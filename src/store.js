@@ -4,8 +4,9 @@ import recipesReducer from "./features/recipes/recipesSlice";
 import singleRecipeReducer from "./features/singleRecipe/singleRecipeSlice";
 import reviewsReducer from "./features/reviews/reviewsSlice";
 import singleReviewReducer from "./features/singleReview/singleReviewSlice";
-import filesReducer from "./features/files/filesSlice";
 import modalReducer from "./features/modal/modalSlice";
+import repliesReducer from "./features/replies/repliesSlice";
+import singleReplyReducer from "./features/singleReply/singleReplySlice";
 
 export const store = configureStore({
   reducer: {
@@ -14,7 +15,8 @@ export const store = configureStore({
     reviews: reviewsReducer,
     singleRecipe: singleRecipeReducer,
     singleReview: singleReviewReducer,
-    files: filesReducer,
     modal: modalReducer,
+    replies: repliesReducer,
+    singleReply: singleReplyReducer,
   },
 });

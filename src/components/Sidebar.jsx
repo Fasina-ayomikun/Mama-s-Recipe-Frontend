@@ -25,13 +25,13 @@ function Sidebar() {
     <section
       className={
         isSidebarOpen
-          ? " transition-all duration-700 translate-x-0  bg-black fixed h-screen w-full   left-0 z-20 lg:hidden bottom-0"
+          ? " transition-all duration-700 translate-x-0  bg-white text-zinc-800  fixed h-screen w-full   left-0 z-20 lg:hidden bottom-0"
           : " transition-all duration-700 translate-x-full  bg-black fixed h-screen w-full   left-0 z-20 lg:hidden bottom-0"
       }
     >
       {" "}
       {user ? (
-        <div className='flex items-center border-orange sm:gap-6 lg:gap-10 border-b-2'>
+        <div className='flex items-center border-green sm:gap-6 lg:gap-10 border-b-2'>
           <div
             onClick={() => {
               navigate(`/profile/${user._id}`);
@@ -40,15 +40,15 @@ function Sidebar() {
             className='w-32  aspect-square '
           >
             <img
-              src={user?.profileImage}
+              src={user?.profileImage?.url}
               alt=''
               className='aspect-square object-cover '
             />
           </div>
           <div className='sm:py-2 lg:py-4'>
-            <h4 className='lg:text-3xl sm:text-lg font-extrabold text-orange capitalize'>{`${user?.firstName} ${user?.lastName}`}</h4>
+            <h4 className='lg:text-3xl sm:text-lg font-extrabold text-black capitalize'>{`${user?.firstName} ${user?.lastName}`}</h4>
             {user?.displayName ? (
-              <p className='lowercase italic text-grey my-1 text-sm '>{`@ ${user?.displayName}`}</p>
+              <p className='lowercase italic text-zinc-800 my-1 text-sm '>{`@ ${user?.displayName}`}</p>
             ) : (
               ""
             )}
@@ -56,27 +56,28 @@ function Sidebar() {
         </div>
       ) : (
         <>
+          {/*/FIXME: MAkthe close icon show*/}
           <MdClose
             onClick={() => dispatch(setCloseSidebar())}
-            className='absolute  right-5 top-5 text-grey  text-3xl'
+            className='absolute  right-5 top-5 text-black  bg-red-300 text-3xl'
           ></MdClose>
           <Link to='/'>
-            <div className='mt-2 flex items-center text-grey italic font-["Dancing_Script"]'>
+            <div className='mt-2 flex items-center text-black italic font-["Dancing_Script"]'>
               <img
                 src={logo}
                 alt=''
                 className='md:w-24 sm:w-16 aspect-square'
               />
-              <p className='md:text-2xl md:text-md text-orange'>
+              <p className='md:text-2xl md:text-md text-dark-green'>
                 Mama's Recipe
               </p>
             </div>
           </Link>
         </>
       )}
-      <ul className='pl-6 mt-8 flex flex-col items-start justify-between text-grey gap-6 text-lg capitalize'>
+      <ul className='pl-6 mt-8 flex flex-col items-start justify-between text-black gap-6 text-lg capitalize'>
         {navLinks.map(({ name, url }, index) => (
-          <li onClick={() => dispatch(setCloseSidebar())}>
+          <li key={index} onClick={() => dispatch(setCloseSidebar())}>
             <NavLink
               className='flex items-center gap-2'
               to={url}

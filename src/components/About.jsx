@@ -3,10 +3,10 @@ import React from "react";
 function About() {
   return (
     <section className='max-w-5xl md:w-4/5 sm:w-9/12 mx-auto py-8'>
-      <h3 className='text-3xl underline font-semibold capitalize text-center my-4'>
+      <h3 className='text-3xl  font-semibold capitalize text-black text-center my-4'>
         About Us
       </h3>{" "}
-      <p className='mt-10 leading-6 text-sm text-center'>
+      <p className='mt-10 leading-6 text-sm text-center text-gray-600'>
         Lorem ipsum dolor sit amet consectetur adipisicing elit. Nobis
         necessitatibus, velit, magnam amet deleniti autem deserunt, dolorum
         debitis obcaecati odit aspernatur illum labore suscipit. Sunt adipisci

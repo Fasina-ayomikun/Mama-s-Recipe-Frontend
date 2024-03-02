@@ -6,13 +6,13 @@ import {
   deleteRecipeThunk,
   editRecipeThunk,
   getSingleRecipeThunk,
+  getSingleUserRecipeThunk,
 } from "./singleRecipeThunk";
 
 const initialState = {
   recipeId: "",
   name: "",
   description: "",
-  category: "",
   ingredients: [],
   equipments: [],
   createdAt: "",
@@ -20,16 +20,17 @@ const initialState = {
   averageRatings: "",
   isLoading: false,
   isEditing: false,
-  noOfReviews: "",
+  noOfLikes: 0,
   user: [],
+  likers: [],
   images: [],
-  video: "",
 };
 
 export const getSingleRecipe = createAsyncThunk(
   "recipes/singleRecipe",
   getSingleRecipeThunk
 );
+
 export const createRecipe = createAsyncThunk(
   "recipes/createRecipe",
   async (body, thunkAPI) => {
@@ -105,45 +106,20 @@ const singleRecipeSlice = createSlice({
         state.isError = false;
       })
       .addCase(getSingleRecipe.fulfilled, (state, { payload }) => {
-        const {
-          _id,
-          name,
-          description,
-          averageRatings,
-          ingredients,
-          user,
-          equipments,
-          image,
-          video,
-          instructions,
-          category,
-          createdAt,
-          noOfReviews,
-        } = payload.recipe;
+        const { _id } = payload.recipe;
         toast.success(payload.msg);
         return {
           ...state,
           isLoading: false,
           isError: false,
           recipeId: _id,
-          name,
-          instructions,
-          category,
-          createdAt,
-          description,
-          ingredients,
-          equipments,
-          image,
-          video,
-          user,
-          averageRatings,
-          noOfReviews,
+          ...payload.recipe,
         };
       })
       .addCase(getSingleRecipe.rejected, (state, { payload }) => {
         state.isLoading = false;
         state.isError = true;
-        handleError(payload);
+        toast.warning(payload);
       })
       .addCase(createRecipe.pending, (state) => {
         state.isLoading = true;
@@ -159,7 +135,7 @@ const singleRecipeSlice = createSlice({
       .addCase(createRecipe.rejected, (state, { payload }) => {
         state.isLoading = false;
         state.isError = true;
-        handleError(payload);
+        toast.warning(payload);
       })
       .addCase(editRecipe.pending, (state) => {
         state.isLoading = true;
@@ -177,7 +153,7 @@ const singleRecipeSlice = createSlice({
         state.isLoading = false;
         state.isError = true;
         state.isEditing = false;
-        handleError(payload);
+        toast.warning(payload);
       });
   },
 });

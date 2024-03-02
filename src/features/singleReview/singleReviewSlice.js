@@ -79,7 +79,7 @@ const singleReviewSlice = createSlice({
         state.isLoading = false;
         state.isError = true;
 
-        handleError(payload);
+        toast.warning(payload);
       })
       .addCase(editReview.pending, (state) => {
         state.isLoading = true;
@@ -95,7 +95,8 @@ const singleReviewSlice = createSlice({
         state.isLoading = false;
         state.isError = true;
         state.isEditing = false;
-        handleError(payload);
+
+        toast.warning(payload);
       });
   },
 });

@@ -1,22 +1,19 @@
 import React from "react";
-import { useDispatch } from "react-redux";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
-function ImgContainer({ user, small }) {
+function ImgContainer({ img, user, small }) {
   const navigate = useNavigate();
   return (
     <div
       onClick={() => {
         navigate(`/profile/${user._id}`);
       }}
-      className={`${
-        small
-          ? "w-12 aspect-square rounded-full"
-          : "sm:mx-auto  w-48 aspect-square rounded-full"
+      className={`rounded-full aspect-square ${
+        small ? "  w-full" : "sm:mx-auto  w-48"
       }`}
     >
       <img
-        src={user?.profileImage?.url}
+        src={img || user?.profileImage?.url}
         alt=''
         className='aspect-square object-cover rounded-full'
       />

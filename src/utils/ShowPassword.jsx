@@ -6,12 +6,12 @@ const ShowPassword = ({ showPassword, setShowPassword }) => {
     <>
       {showPassword ? (
         <AiFillEye
-          className='text-grey text-3xl opacity-60'
+          className='text-zinc-800 text-3xl opacity-60'
           onClick={() => setShowPassword(!showPassword)}
         />
       ) : (
         <AiFillEyeInvisible
-          className='text-grey text-3xl opacity-60'
+          className='text-zinc-800 text-3xl opacity-60'
           onClick={() => setShowPassword(!showPassword)}
         />
       )}
