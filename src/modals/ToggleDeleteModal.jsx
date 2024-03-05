@@ -4,7 +4,7 @@ import { deleteRecipe } from "../features/singleRecipe/singleRecipeSlice";
 import { useEffect } from "react";
 import { getAllRecipes } from "../features/recipes/recipesSlice";
 
-function ToggleModal({ setOpenDeleteModel, id }) {
+function ToggleDeleteModal({ setOpenDeleteModel, id }) {
   const dispatch = useDispatch();
   const navigate = useNavigate();
 
@@ -21,11 +21,13 @@ function ToggleModal({ setOpenDeleteModel, id }) {
             onClick={() => {
               setOpenDeleteModel(false);
             }}
+            type='button'
             className='border-2 text-red-400  rounded-full py-2 px-6 bg-transparent text-sm border-red-400 w-full'
           >
             Cancel
           </button>
           <button
+            type='button'
             onClick={() => {
               dispatch(deleteRecipe(id));
               navigate("/recipes");
@@ -40,4 +42,4 @@ function ToggleModal({ setOpenDeleteModel, id }) {
   );
 }
 
-export default ToggleModal;
+export default ToggleDeleteModal;

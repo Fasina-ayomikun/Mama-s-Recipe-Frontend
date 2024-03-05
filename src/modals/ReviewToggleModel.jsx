@@ -11,20 +11,30 @@ import {
 } from "../features/singleReview/singleReviewSlice";
 import { checkUserPermission } from "../utils/functions";
 
-function ReviewToggleModel({ review, setOpenReview, closeModal }) {
+function ReviewToggleModel({ review, profile, setOpenReview, closeModal }) {
   const dispatch = useDispatch();
 
   return (
-    <ul className='addIndex absolute w-48 mt-6 sm:right-28   rounded px-3 py-2  bg-zinc-300    text-black text-md '>
+    <ul className='addIndex absolute w-48 mt-6 right-28  sm:right-3 rounded px-3 py-2  bg-zinc-300    text-black text-md '>
       <li className='my-3 cursor-pointer'>
-        <Link
-          to={`/profile/${review?.user?._id}`}
-          className='flex items-center gap-3'
-        >
-          <CgProfile className='text-2xl text-black opacity-60' /> View profile
-        </Link>
+        {profile ? (
+          <Link
+            to={`/recipes/${review?.recipe._id}`}
+            className='flex items-center gap-3'
+          >
+            <CgProfile className='text-2xl text-black opacity-60' /> View Recipe
+          </Link>
+        ) : (
+          <Link
+            to={`/profile/${review?.user?._id}`}
+            className='flex items-center gap-3'
+          >
+            <CgProfile className='text-2xl text-black opacity-60' /> View
+            profile
+          </Link>
+        )}
       </li>
-      {checkUserPermission(review?.user?.email) && (
+      {!profile && checkUserPermission(review?.user?.email) && (
         <>
           <li
             className='my-3 flex items-center gap-3 cursor-pointer'

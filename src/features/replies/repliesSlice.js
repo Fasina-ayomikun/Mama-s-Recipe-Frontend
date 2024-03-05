@@ -20,11 +20,9 @@ const repliesSlice = createSlice({
         return { ...state, isLoading: true };
       })
       .addCase(getAllReplies.fulfilled, (state, { payload }) => {
-        console.log(payload);
         return { ...state, isLoading: false, replies: payload.replies };
       })
       .addCase(getAllReplies.rejected, (state, { payload }) => {
-        console.log(payload);
         toast.warning(payload);
         return { ...state, isLoading: false };
       });

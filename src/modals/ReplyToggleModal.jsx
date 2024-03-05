@@ -3,12 +3,6 @@ import { FaTrash } from "react-icons/fa";
 import { CgProfile } from "react-icons/cg";
 import { Link } from "react-router-dom";
 import { useDispatch } from "react-redux";
-import {
-  deleteReview,
-  setEditReview,
-  setEditReviewDetails,
-  setRatings,
-} from "../features/singleReview/singleReviewSlice";
 import { checkUserPermission } from "../utils/functions";
 import {
   deleteReply,
@@ -20,7 +14,7 @@ function ReplyToggleModal({ reply, setOpen }) {
   const dispatch = useDispatch();
 
   return (
-    <ul className='addIndex absolute w-48 mt-6 sm:right-28   rounded px-3 py-2  bg-zinc-300    text-black text-md '>
+    <ul className='addIndex absolute w-48 mt-6 md:right-28 right-6   rounded px-3 py-2  bg-zinc-300    text-black text-md '>
       <li className='my-3 cursor-pointer'>
         <Link
           to={`/profile/${reply?.commenterId?._id}`}

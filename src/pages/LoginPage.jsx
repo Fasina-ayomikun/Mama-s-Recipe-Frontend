@@ -2,13 +2,14 @@ import React, { useEffect } from "react";
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
-import { loginUser } from "../features/users/userSlice";
+import { handleOAuth, loginUser } from "../features/users/userSlice";
 import Loading from "../utils/Loading";
 import ShowPassword from "../utils/ShowPassword";
 import { IoLogoGoogle } from "react-icons/io5";
 import { FaGithub } from "react-icons/fa";
 import { FaInstagramSquare } from "react-icons/fa";
 import SocialIcons from "../utils/SocialIcons";
+import ForgotPassword from "../modals/ForgotPassword";
 
 const initialValue = {
   email: "",
@@ -16,6 +17,7 @@ const initialValue = {
 };
 function LoginPage() {
   const [showPassword, setShowPassword] = useState(false);
+  const [open, setOpen] = useState(false);
   const [value, setValue] = useState(initialValue);
   const { isLoading, user } = useSelector((store) => store.user);
   const dispatch = useDispatch();
@@ -70,9 +72,13 @@ function LoginPage() {
             />
           </div>
         </div>
-        <p className='text-xs text-zinc-800 text-end cursor-pointer'>
+        <p
+          className='text-xs text-zinc-800 text-end cursor-pointer'
+          onClick={() => setOpen(true)}
+        >
           Forgot Password?
         </p>
+
         <button
           type='submit'
           disabled={isLoading}
@@ -88,6 +94,7 @@ function LoginPage() {
           Register
         </Link>
       </p>
+      {open && <ForgotPassword setOpen={setOpen} />}
     </section>
   );
 }

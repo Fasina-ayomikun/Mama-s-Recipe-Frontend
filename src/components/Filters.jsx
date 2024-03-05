@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { initialQuery, numberList } from "../utils/utils";
 import { getAllRecipes } from "../features/recipes/recipesSlice";
 import { useDispatch } from "react-redux";
-import { customUrl } from "../utils/axios";
+import { getUniqueValues } from "../utils/functions";
 
 const Filters = () => {
   const [selectList, setSelectList] = useState({
@@ -15,31 +15,16 @@ const Filters = () => {
   const handleEvent = (input) => {
     const name = input.name;
     const value = input.value;
-    console.log(query);
     setQuery({ ...query, [name]: value });
   };
 
-  const getUniqueValues = async () => {
-    try {
-      const values = await customUrl.get("/recipes/details", {
-        withCredentials: true,
-        headers: {
-          "Access-Control-Allow-Origin":
-            "https://nutty-bass-nightshirt.cyclic.app",
-        },
-      });
-      setSelectList(values.data);
-    } catch (error) {
-      console.log(error);
-    }
-  };
   useEffect(() => {
-    getUniqueValues();
+    getUniqueValues(setSelectList);
     dispatch(getAllRecipes(query));
   }, []);
   return (
     <>
-      <div className='mt-16 flex md:flex-nowrap sm:flex-wrap gap-y-4 gap-x-3'>
+      <div className='mt-16 flex md:flex-nowrap flex-wrap gap-y-4 gap-x-3'>
         <input
           type='text'
           name='search'
@@ -50,24 +35,23 @@ const Filters = () => {
         />
         <select
           name='sort'
-          id=''
           value={query.sort}
           onChange={(e) => handleEvent(e.target)}
-          className='bg-gray-200 text-zinc-800  text-center px-5 py-4 rounded-full sm:w-full md:w-5/12'
+          className='bg-gray-200 text-zinc-800 sm:text-start md:text-center px-5 py-4 rounded-full sm:w-full md:w-5/12'
         >
           <option value='latest'>Sort by latest</option>
-          <option value='popularity'>Sort by Popularity</option>
+          <option value='popularity'>Sort by popularity</option>
           <option value='oldest'>Sort by oldest</option>
         </select>
       </div>
       <div className=' mb-24s flex gap-3 items-center w-full my-5 lg:flex-nowrap sm:flex-wrap'>
         <p className='text-zinc-800 w-24 '>Filter by: </p>
-        <div className='flex gap-3 w-full lg:flex-nowrap sm:flex-wrap'>
+        <div className='flex gap-3 w-full lg:flex-nowrap flex-wrap'>
           <select
             name='ingredient'
             onChange={(e) => handleEvent(e.target)}
             value={query.ingredient}
-            className='  bg-gray-200 text-center text-zinc-800  px-5 py-4 rounded-full sm:w-full '
+            className='  bg-gray-200  text-center text-zinc-800  px-5 py-4 rounded-full w-full '
           >
             <option value=''>Ingredients</option>
 
@@ -79,7 +63,7 @@ const Filters = () => {
             name='equipment'
             value={query.equipment}
             onChange={(e) => handleEvent(e.target)}
-            className='  bg-gray-200 text-zinc-800 text-center px-5 py-4 rounded-full sm:w-full '
+            className='  bg-gray-200 text-zinc-800  text-center px-5 py-4 rounded-full w-full '
           >
             <option value=''>Equipments</option>
             {selectList.equipments.map((equipment, index) => {
@@ -90,7 +74,7 @@ const Filters = () => {
             name='minLikes'
             value={query.minLikes}
             onChange={(e) => handleEvent(e.target)}
-            className='  bg-gray-200 text-zinc-800 text-center px-5 py-4 rounded-full sm:w-full '
+            className='  bg-gray-200 text-zinc-800  text-center px-5 py-4 rounded-full sm:w-full '
           >
             <option value=''>No of Likes</option>
 
@@ -104,7 +88,7 @@ const Filters = () => {
             name='minReviews'
             value={query.minReviews}
             onChange={(e) => handleEvent(e.target)}
-            className='  bg-gray-200 text-zinc-800 text-center px-5 py-4 rounded-full sm:w-full md:w-full'
+            className='  bg-gray-200 text-zinc-800  text-center px-5 py-4 rounded-full sm:w-full md:w-full'
           >
             <option value=''>No of Reviews</option>
 
@@ -115,19 +99,23 @@ const Filters = () => {
             ))}
           </select>
         </div>
-        <btn
+        <button
+          type='button'
           onClick={() => {
             dispatch(getAllRecipes(query));
           }}
-          className=' text-center rounded-full cursor-pointer text-white py-4 px-10 bg-dark-green lg:w-fit sm:w-full'
+          className=' mt-8 md:mt-0 text-center rounded-full cursor-pointer text-white py-4 px-10 bg-dark-green lg:w-fit sm:w-full'
         >
           Search
-        </btn>
+        </button>
       </div>
       <button
         type='button'
         className='underline cursor-pointer w-full flex justify-end '
-        onClick={() => setQuery(initialQuery)}
+        onClick={() => {
+          setQuery(initialQuery);
+          dispatch(getAllRecipes(initialQuery));
+        }}
       >
         Clear Filters
       </button>

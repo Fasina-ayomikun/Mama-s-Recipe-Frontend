@@ -1,3 +1,4 @@
+import { customUrl } from "./axios";
 import { getFromLocalStorage } from "./localStorage";
 
 const user = getFromLocalStorage();
@@ -15,4 +16,15 @@ const checkUserPermission = (referenceEmail) => {
   }
   return;
 };
-export { checkUserPermission, checkUser };
+
+const getUniqueValues = async (setSelectList) => {
+  try {
+    const values = await customUrl.get("/recipes/details", {
+      withCredentials: true,
+    });
+    setSelectList(values.data);
+  } catch (error) {
+    console.log(error);
+  }
+};
+export { checkUserPermission, checkUser, getUniqueValues };

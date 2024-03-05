@@ -3,7 +3,7 @@ import { HiOutlineArrowNarrowLeft } from "react-icons/hi";
 import { useState } from "react";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import { ImgContainer, SingleReview, SingleStep, Stars } from "../utils";
-import { ReviewModal, ToggleModal } from "../modals";
+import { ReviewModal, ToggleDeleteModal } from "../modals";
 import { useDispatch, useSelector } from "react-redux";
 import { getSingleRecipe } from "../features/singleRecipe/singleRecipeSlice";
 import Loading from "../utils/Loading";
@@ -55,13 +55,9 @@ function SingleRecipePage() {
     try {
       const resp = await customUrl.get(`/recipes/like/${id}`, {
         withCredentials: true,
-        headers: {
-          "Access-Control-Allow-Origin":
-            "https://nutty-bass-nightshirt.cyclic.app",
-        },
       });
       console.log(resp);
-      if (resp.status === 200) {
+      if (resp?.status === 200) {
         dispatch(getSingleRecipe(id));
       }
     } catch (error) {
@@ -100,7 +96,7 @@ function SingleRecipePage() {
         </Link>
 
         <div className=' grid grid-row-2 lg:grid-cols-2 gap-6 '>
-          <div className='w-full h-full'>
+          <div className='w-full min-h-[200px] md:min-h-[500px] h-full'>
             <img
               src={images[imageIndex]?.url}
               alt=''
@@ -144,7 +140,7 @@ function SingleRecipePage() {
                       className='text-red-400'
                     />
                     {openDeleteModal && (
-                      <ToggleModal
+                      <ToggleDeleteModal
                         setOpenDeleteModel={setOpenDeleteModal}
                         id={id}
                       />
@@ -258,7 +254,7 @@ function SingleRecipePage() {
               <h4 className='text-zinc-800 capitalize text-2xl font-bold break-all'>
                 {user.firstName + " " + user.lastName}
               </h4>
-              <p className='text-sm text-zinc-600 break-all'>{user.bio}</p>
+              <p className='text-sm text-zinc-600 break-all'>{user?.bio}</p>
               {/* FIXME: Fix mail sending */}
               <a
                 href={`mailto:${user.email}?subject=Hello I really love your recipe`}
@@ -273,7 +269,7 @@ function SingleRecipePage() {
           {isRecipesLoading ? (
             <Loading small={true} />
           ) : (
-            <div className='grid lg:grid-cols-3 md:grid-cols-2  sm:grid-cols-1 gap-3 items-center justify-between mt-16 w-full'>
+            <div className=' grid lg:grid-cols-3 md:grid-cols-2  grid-cols-1 gap-3 items-center justify-between mt-16 w-full '>
               {recipes.length < 1 ? (
                 <p className='text-zinc-800 h-48'>No recipes to display.</p>
               ) : (

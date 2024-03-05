@@ -24,9 +24,7 @@ const createRecipeThunk = async (body, thunkAPI) => {
       },
     });
     thunkAPI.dispatch(clearState());
-
     thunkAPI.dispatch(getAllRecipes(initialQuery));
-
     return resp.data;
   } catch (error) {
     return thunkAPI.rejectWithValue(error.response.data.error.msg);
@@ -39,7 +37,6 @@ const editRecipeThunk = async (body, thunkAPI) => {
       withCredentials: true,
     });
     thunkAPI.dispatch(clearState());
-
     thunkAPI.dispatch(getSingleRecipe(editId));
     return resp.data;
   } catch (error) {

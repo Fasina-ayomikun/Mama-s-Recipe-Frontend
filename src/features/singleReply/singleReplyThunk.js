@@ -15,7 +15,8 @@ const createReplyThunk = async (body, thunkAPI) => {
         },
       }
     );
-    thunkAPI.dispatch(getAllReplies(body.id));
+
+    thunkAPI.dispatch(getAllReplies(body.reviewId));
     thunkAPI.dispatch(clearState());
 
     return resp.data;
@@ -26,7 +27,6 @@ const createReplyThunk = async (body, thunkAPI) => {
 const editReplyThunk = async (body, thunkAPI) => {
   try {
     const { editId, comment, reviewId } = body;
-    console.log(body);
     const resp = await customUrl.patch(
       `/reviews/reply/${editId}`,
       { comment },

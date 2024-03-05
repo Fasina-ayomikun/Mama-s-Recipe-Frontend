@@ -8,7 +8,7 @@ import { convertFileToBAse64 } from "../utils/utils";
 
 function EditProfilePage() {
   const user = getFromLocalStorage();
-  const [value, setValue] = useState({ ...user, bio: "", displayName: "" });
+  const [value, setValue] = useState({ ...user });
   const [file, setFile] = useState(null);
   const [imagePreview, setImagePreview] = useState("");
   const dispatch = useDispatch();

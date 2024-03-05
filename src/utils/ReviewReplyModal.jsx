@@ -10,7 +10,7 @@ const ReviewReplyModal = ({ reply }) => {
   return (
     <div className='  flex items-start justify-between gap-8 bg-gray-200 py-3 px-5 rounded text-black w-full'>
       <div className='cursor-pointer'>
-        <p className='text-sm my-2'>{reply?.comment}</p>
+        <p className='text-sm my-2 break-all'>{reply?.comment}</p>
         <span className='italic text-zinc-700 text-xs  mt-2'>
           by {checkUser(reply?.commenterId)}
         </span>

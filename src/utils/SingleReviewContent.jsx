@@ -4,7 +4,7 @@ import { checkUser } from "./functions";
 import { GrMoreVertical } from "react-icons/gr";
 import { ReviewToggleModel } from "../modals";
 
-const SingleReviewContent = ({ review, setOpenReview }) => {
+const SingleReviewContent = ({ review, setOpenReview, profile }) => {
   const [open, setOpen] = useState(false);
 
   const closeModal = () => {
@@ -36,6 +36,7 @@ const SingleReviewContent = ({ review, setOpenReview }) => {
           review={review}
           setOpenReview={setOpenReview}
           closeModal={closeModal}
+          profile={profile}
         />
       )}
     </div>

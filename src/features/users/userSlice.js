@@ -6,9 +6,11 @@ import {
 } from "../../utils/localStorage";
 import {
   editUserThunk,
+  forgotPasswordRequestThunk,
   loginUserThunk,
   logoutUserThunk,
   registerUserThunk,
+  resetPasswordThunk,
   singleUserThunk,
 } from "./userThunk";
 
@@ -16,9 +18,11 @@ const initialState = {
   isLoading: false,
   isError: false,
   isEdited: false,
+  loggingInWithOAuth: false,
   image: "",
   user: [],
   profileUser: [],
+  token: "",
 };
 export const registerUser = createAsyncThunk(
   "auth/registerUser",
@@ -30,6 +34,23 @@ export const loginUser = createAsyncThunk(
   "auth/loginUser",
   async (user, thunkAPI) => {
     return loginUserThunk("/auth/login", user, thunkAPI);
+  }
+);
+
+export const forgotPasswordRequest = createAsyncThunk(
+  "auth/forgotPasswordRequest",
+  async (user, thunkAPI) => {
+    return forgotPasswordRequestThunk("/auth/forgot-password", user, thunkAPI);
+  }
+);
+export const resetPassword = createAsyncThunk(
+  "auth/resetPassword",
+  async (details, thunkAPI) => {
+    return resetPasswordThunk(
+      `/auth/forgot-password/reset/${details.token}`,
+      details,
+      thunkAPI
+    );
   }
 );
 export const editUser = createAsyncThunk(
@@ -56,6 +77,12 @@ export const userSlice = createSlice({
   reducers: {
     setUserEdited: (state) => {
       return { ...state, isEdited: false };
+    },
+    handleOAuth: (state) => {
+      return { ...state, loggingInWithOAuth: true };
+    },
+    disableOAuth: (state) => {
+      return { ...state, loggingInWithOAuth: false };
     },
   },
   extraReducers: (builder) => {
@@ -90,6 +117,40 @@ export const userSlice = createSlice({
         setToLocalStorage(payload.user);
       })
       .addCase(loginUser.rejected, (state, { payload }) => {
+        state.isLoading = false;
+        state.isError = true;
+        toast.warning(payload);
+      })
+
+      .addCase(forgotPasswordRequest.pending, (state) => {
+        state.isLoading = true;
+        state.isError = false;
+      })
+      .addCase(forgotPasswordRequest.fulfilled, (state, { payload }) => {
+        state.isLoading = false;
+        state.isError = false;
+        state.token = payload.token;
+        toast.success(payload.msg);
+      })
+      .addCase(forgotPasswordRequest.rejected, (state, { payload }) => {
+        state.isLoading = false;
+        state.isError = true;
+        toast.warning(payload);
+      })
+      .addCase(resetPassword.pending, (state) => {
+        state.isLoading = true;
+        state.isError = false;
+      })
+      .addCase(resetPassword.fulfilled, (state, { payload }) => {
+        state.isLoading = false;
+        state.isError = false;
+        localStorage.setItem(
+          "Mama-recipe-user-password-updated",
+          JSON.stringify(true)
+        );
+        toast.success(payload.msg);
+      })
+      .addCase(resetPassword.rejected, (state, { payload }) => {
         state.isLoading = false;
         state.isError = true;
         toast.warning(payload);
@@ -153,6 +214,7 @@ export const userSlice = createSlice({
   },
 });
 
-export const { setProfile, setUserEdited } = userSlice.actions;
+export const { setProfile, setUserEdited, handleOAuth, disableOAuth } =
+  userSlice.actions;
 
 export default userSlice.reducer;

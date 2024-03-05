@@ -78,7 +78,6 @@ const recipesSlice = createSlice({
       .addCase(getUserFavoriteRecipe.rejected, (state, { payload }) => {
         state.isLoading = false;
         state.isError = true;
-
         toast.warning(payload);
       })
       .addCase(getSingleUserRecipe.pending, (state) => {
@@ -97,7 +96,6 @@ const recipesSlice = createSlice({
       .addCase(getSingleUserRecipe.rejected, (state, { payload }) => {
         state.isLoading = false;
         state.isError = true;
-
         toast.warning(payload);
       });
   },

@@ -6,6 +6,7 @@ import { FiMoreHorizontal } from "react-icons/fi";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import {
+  clearState,
   createRecipe,
   createStep,
   editRecipe,
@@ -21,6 +22,9 @@ import { convertFileToBAse64 } from "../utils/utils";
 import { toast } from "react-toastify";
 
 function CreateRecipesPage() {
+  const recipeToEdit = JSON.parse(
+    localStorage.getItem("Mama-recipe-edit-recipe")
+  );
   const [openStepModal, setOpenStepModal] = useState({
     status: false,
     stepIndex: "",
@@ -38,9 +42,6 @@ function CreateRecipesPage() {
   const ref = useRef(null);
   const ingredientRef = useRef(null);
   const equipmentRef = useRef(null);
-  const recipeToEdit = JSON.parse(
-    localStorage.getItem("Mama-recipe-edit-recipe")
-  );
   const localStorageInfo = JSON.parse(
     localStorage.getItem("Mama-recipe-created")
   );
@@ -80,7 +81,7 @@ function CreateRecipesPage() {
       convertFileToBAse64(files[i])
         .then((result) => {
           setImagesList((old) => {
-            return [...old, result];
+            return [...old, { url: result }];
           });
         })
         .catch((err) => console.log(err));
@@ -139,9 +140,13 @@ function CreateRecipesPage() {
     }
   }, [localStorageInfo]);
   useEffect(() => {
-    setImagesList(images);
     if (window.location.pathname.includes("add")) {
       localStorage.removeItem("Mama-recipe-edit-recipe");
+      dispatch(clearState());
+      setImagesList(images);
+    } else {
+      console.log(recipeToEdit.images);
+      setImagesList(recipeToEdit.images);
     }
   }, []);
   if (isLoading) {
@@ -159,15 +164,17 @@ function CreateRecipesPage() {
       <h3 className='text-3xl font-semibold capitalize text-center my-4 text-zinc-800'>
         Create a New Recipe
       </h3>
-      {imagesList.map((image) => (
-        <div className='mb-10 w-28  aspect-square mx-auto flex items-center bg-dark-green mt-7 justify-center rounded-full'>
-          <img
-            src={`${image ? image : recipeToEdit?.image}`}
-            alt=''
-            className='object-cover h-full w-full rounded-full'
-          />
-        </div>
-      ))}
+      <div className='flex items-center gap-3 flex-wrap  justify-center my-10'>
+        {imagesList.map((image) => (
+          <div className=' w-28  aspect-square  flex items-center justify-center rounded'>
+            <img
+              src={`${image.url}`}
+              alt=''
+              className='object-cover h-full w-full'
+            />
+          </div>
+        ))}
+      </div>
       <form onSubmit={handleSubmit}>
         <div className='block'>
           <label htmlFor='file' className='text-zinc-800 mr-5  '>

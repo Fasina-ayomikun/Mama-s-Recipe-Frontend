@@ -1,6 +1,6 @@
 import ReviewModal from "../modals/ReviewModal";
-import ToggleModal from "../modals/ToggleModal";
+import ToggleDeleteModal from "../modals/ToggleDeleteModal";
 import ReviewToggleModel from "./ReviewToggleModel";
 import StepToggle from "./StepToggle";
 
-export { StepToggle, ReviewToggleModel, ReviewModal, ToggleModal };
+export { StepToggle, ReviewToggleModel, ReviewModal, ToggleDeleteModal };

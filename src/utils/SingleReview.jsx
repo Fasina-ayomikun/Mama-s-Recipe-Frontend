@@ -49,20 +49,23 @@ function SingleReview({ review, setOpenReview }) {
   }, []);
   return (
     <div className=' mb-5  '>
-      <SingleReviewContent review={review} setOpenReview={setOpenReview} />
+      <SingleReviewContent
+        review={review}
+        setOpenReview={setOpenReview}
+        profile={false}
+      />
 
       <p
         onClick={() => {
           setOpenCommentSection((prev) => !prev);
           dispatch(clearState());
         }}
-        className='cursor-pointer text-sm text-zinc-800 pl-4 flex items-center gap-2 mt-2'
+        className='cursor-pointer text-sm text-zinc-800 pl-4 mt-2'
       >
         {replies.length} Comments | Add comment
-        <MdArrowDownward />
       </p>
       {openCommentSection && (
-        <div className='pl-14 my-5 max-h-96  overflow-y-auto flex flex-col gap-2'>
+        <div className='pl-2 md:pl-14 my-5 max-h-96  overflow-y-auto flex flex-col gap-2'>
           <form
             onSubmit={handleSubmit}
             className='flex items-center bg-gray-200  rounded-full  px-6 mb-3'
@@ -80,7 +83,7 @@ function SingleReview({ review, setOpenReview }) {
               className='w-20 bg-dark-green rounded-full py-2  text-sm ml-4 my-4 px-3 text-white'
               my-4
             >
-              Send
+              {isEditing ? "Edit" : "Send"}
             </button>
           </form>
           {isLoading ? (

@@ -1,12 +1,10 @@
 import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
 import { toast } from "react-toastify";
-import { handleError } from "../../utils/handleError";
 import {
   createRecipeThunk,
   deleteRecipeThunk,
   editRecipeThunk,
   getSingleRecipeThunk,
-  getSingleUserRecipeThunk,
 } from "./singleRecipeThunk";
 
 const initialState = {

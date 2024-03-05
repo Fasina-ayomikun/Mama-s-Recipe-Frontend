@@ -19,6 +19,7 @@ import Loading from "../utils/Loading";
 import { BsStarFill } from "react-icons/bs";
 import { MdOutlineFastfood, MdOutlineFavorite } from "react-icons/md";
 import { SingleReview } from "../utils";
+import SingleReviewContent from "../utils/SingleReviewContent";
 function ProfilePage() {
   const [endSlice, setEndSlice] = useState(10);
   const [open, setOpen] = useState(0);
@@ -51,7 +52,7 @@ function ProfilePage() {
           <span className='underline'>Back</span>
         </Link>
         <div className='grid lg:grid-cols-2 item-start sm:grid-cols-1 lg:gap-0 sm:gap-10 max-w-3xl mt-16 mx-auto text-zinc-800   mb-10'>
-          <div className='border-8 border-opacity-75 rounded-full border-dark-green w-fit mx-auto'>
+          <div className='border-8 border-opacity-75 rounded-full border-dark-green  mx-auto'>
             <ImgContainer user={profileUser} small={false} />
           </div>
           <div className='relative'>
@@ -64,7 +65,7 @@ function ProfilePage() {
                 Edit Profile
               </Link>
             )}
-            <h3 className='text-3xl sm:mt-10 lg: mt-0  lg:text-start text-center font-semibold capitalize  my-4'>
+            <h3 className='text-3xl sm:mt-10 lg: mt-0 break-all  lg:text-start text-center font-semibold capitalize  my-4'>
               {firstName + " " + lastName}
             </h3>
             <p className='text-sm lg:text-start  sm:text-center my-5'>{bio}</p>
@@ -80,33 +81,33 @@ function ProfilePage() {
               setOpen(0);
               dispatch(getSingleUserRecipe(id));
             }}
-            className={`cursor-pointer flex flex-col items-center  text-xl justify-center gap-4  py-3 ${
+            className={`cursor-pointer flex flex-col items-center  text-md md:text-xl justify-center gap-4  py-3 ${
               open === 0 ? "text-dark-green" : "text-zinc-800 "
             }`}
           >
-            <MdOutlineFastfood className='text-3xl ' /> Recipes
+            <MdOutlineFastfood className='md:text-3xl text-2xl ' /> Recipes
           </p>
           <p
             onClick={() => {
               setOpen(1);
               dispatch(getUserFavoriteRecipe(id));
             }}
-            className={`cursor-pointer flex flex-col items-center  text-xl justify-center gap-4  py-3 ${
+            className={`cursor-pointer flex flex-col items-center  text-md md:text-xl justify-center gap-4  py-3 ${
               open === 1 ? "text-dark-green" : "text-zinc-800 "
             }`}
           >
-            <MdOutlineFavorite className='text-3xl ' /> Favorites
+            <MdOutlineFavorite className='md:text-3xl text-2xl ' /> Favorites
           </p>
           <p
             onClick={() => setOpen(2)}
-            className={`cursor-pointer flex flex-col items-center  text-xl justify-center gap-4  py-3 ${
+            className={`cursor-pointer flex flex-col items-center  text-md md:text-xl justify-center gap-4  py-3 ${
               open === 2 ? "text-dark-green" : "text-zinc-800 "
             }`}
           >
-            <BsStarFill className='text-3xl ' /> Reviews
+            <BsStarFill className='md:text-3xl text-2xl ' /> Reviews
           </p>
         </div>
-        <div className={`${open === 0 ? "block" : " hidden"}`}>
+        <div className={`relative pt-4 ${open === 0 ? "block" : " hidden"}`}>
           {checkUserPermission(currentProfile?.email) && (
             <Link
               to='/add'
@@ -136,7 +137,9 @@ function ProfilePage() {
           ) : (
             <div className='grid lg:grid-cols-3 md:grid-cols-2  sm:grid-cols-1 gap-3 items-center justify-between mt-16 w-full'>
               {recipes.length < 1 ? (
-                <p className='text-zinc-800 h-48'>No recipes to display.</p>
+                <p className='text-zinc-800 h-48'>
+                  No recipe added to favorites
+                </p>
               ) : (
                 recipes.map((recipe) => {
                   return <ShowRecipe key={recipe._id} recipe={recipe} />;
@@ -170,16 +173,14 @@ function ProfilePage() {
           {isLoading ? (
             <Loading />
           ) : reviews.length < 1 ? (
-            <h3 className='text-gray-400'>
-              No reviews available for this recipe.
-            </h3>
+            <h3 className='text-gray-400'>No reviews has been made</h3>
           ) : (
             reviews.slice(0, endSlice).map((review) => {
               return (
-                <SingleReview
-                  key={review._id}
+                <SingleReviewContent
                   review={review}
                   setOpenReview={() => {}}
+                  profile={true}
                 />
               );
             })

@@ -36,7 +36,6 @@ const singleReplySlice = createSlice({
   reducers: {
     handleChange: (state, { payload }) => {
       const { name, value } = payload;
-      console.log(payload);
       return { ...state, [name]: value };
     },
     clearState: () => {

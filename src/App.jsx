@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import ContactPage from "./pages/ContactPage";
 import CreateRecipePage from "./pages/CreateRecipePage";
@@ -8,15 +8,40 @@ import LoginPage from "./pages/LoginPage";
 import ProfilePage from "./pages/ProfilePage";
 import RecipesPage from "./pages/RecipesPage";
 import SignUpPage from "./pages/SignUpPage";
-import { getFromLocalStorage } from "./utils/localStorage";
+import { getFromLocalStorage, setToLocalStorage } from "./utils/localStorage";
 import SingleRecipePage from "./pages/SingleRecipePage";
 import AboutPage from "./pages/AboutPage";
 import EditProfilePage from "./pages/EditProfilePage";
 import ProtectedRoute from "./utils/ProtectedRoute";
 
-import { ToastContainer } from "react-toastify";
+import { ToastContainer, toast } from "react-toastify";
+import ForgotPassword from "./modals/ForgotPassword";
+import ResetPasswordPage from "./pages/ResetPasswordPage";
+import axios from "axios";
+import { customUrl } from "./utils/axios";
+import { disableOAuth } from "./features/users/userSlice";
+import { useDispatch, useSelector } from "react-redux";
 function App() {
-  const user = getFromLocalStorage();
+  const [user, setUser] = useState(null);
+  let localUser = getFromLocalStorage();
+  const getUser = async () => {
+    try {
+      const resp = await customUrl.get("/oauth/user", {
+        withCredentials: true,
+      });
+      if (resp.status === 200) {
+        setToLocalStorage(resp.data.user);
+        setUser(resp.data.user);
+        console.log(resp.data);
+        return;
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+  useEffect(() => {
+    getUser();
+  }, []);
   return (
     <BrowserRouter>
       <ToastContainer
@@ -39,7 +64,7 @@ function App() {
         <Route
           path='add'
           element={
-            <ProtectedRoute id={user?.email}>
+            <ProtectedRoute id={user?.email || localUser?.email}>
               <CreateRecipePage />
             </ProtectedRoute>
           }
@@ -47,7 +72,7 @@ function App() {
         <Route
           path='edit/:id'
           element={
-            <ProtectedRoute id={user?.email}>
+            <ProtectedRoute id={user?.email || localUser?.email}>
               <CreateRecipePage />
             </ProtectedRoute>
           }
@@ -58,12 +83,13 @@ function App() {
         <Route
           path='profile/edit'
           element={
-            <ProtectedRoute id={user?.email}>
+            <ProtectedRoute id={user?.email || localUser?.email}>
               <EditProfilePage />
             </ProtectedRoute>
           }
         />
         <Route path='recipes/:id' element={<SingleRecipePage />} />
+        <Route path='forgot-password/reset' element={<ResetPasswordPage />} />
         <Route path='*' element={<ErrorPage />} />
       </Routes>
     </BrowserRouter>

@@ -6,10 +6,6 @@ const getAllRecipesThunk = async (query, thunkAPI) => {
       `/recipes?search=${query.search}&page=${query.page}&equipment=${query.equipment}&ingredient=${query.ingredient}&minLikes=${query.minLikes}&minReviews=${query.minReviews}&creator=${query.creator}&sort=${query.sort}`,
       {
         withCredentials: true,
-        headers: {
-          "Access-Control-Allow-Origin":
-            "https://nutty-bass-nightshirt.cyclic.app",
-        },
       }
     );
     return resp.data;
