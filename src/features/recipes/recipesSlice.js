@@ -11,6 +11,8 @@ const initialState = {
 
   isError: false,
   recipes: [],
+
+  recipesTotal: 0,
 };
 export const getAllRecipes = createAsyncThunk(
   "recipes/allRecipes",
@@ -59,6 +61,7 @@ const recipesSlice = createSlice({
         state.isLoading = false;
         state.isError = false;
         state.recipes = payload.recipes;
+        state.recipesTotal = payload.totalLength;
       })
       .addCase(getAllRecipes.rejected, (state, { payload }) => {
         state.isLoading = false;

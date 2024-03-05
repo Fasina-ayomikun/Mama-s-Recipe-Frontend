@@ -15,7 +15,7 @@ import { BsStarFill } from "react-icons/bs";
 import { MdDelete, MdEmail, MdFavoriteBorder } from "react-icons/md";
 import { getSingleUserRecipe } from "../features/recipes/recipesSlice";
 import ShowRecipe from "../components/ShowRecipe";
-import { checkUserPermission } from "../utils/functions";
+import { checkUserPermission, toggleLike } from "../utils/functions";
 import { toast } from "react-toastify";
 
 function SingleRecipePage() {
@@ -50,27 +50,7 @@ function SingleRecipePage() {
   const openReviewModal = () => {
     setOpenReview(true);
   };
-  const toggleLike = async (id) => {
-    setIsSubmitting(true);
-    try {
-      const resp = await customUrl.get(`/recipes/like/${id}`, {
-        withCredentials: true,
-      });
-      console.log(resp);
-      if (resp?.status === 200) {
-        dispatch(getSingleRecipe(id));
-      }
-    } catch (error) {
-      console.log(error);
-      if (error.response.status === 401) {
-        toast.warning("Please log in");
-      } else {
-        toast.warning(error.response.data.error.msg);
-      }
-    } finally {
-      setIsSubmitting(false);
-    }
-  };
+
   useEffect(() => {
     dispatch(getSingleRecipe(id));
     dispatch(getRecipeReviews(id));
@@ -165,7 +145,7 @@ function SingleRecipePage() {
               <button
                 type='button'
                 disabled={isSubmitting}
-                onClick={() => toggleLike(recipeId)}
+                onClick={() => toggleLike(recipeId, setIsSubmitting, dispatch)}
                 className='bg-dark-green capitalize border-2 py-3 px-5 md:px-16  w-full justify-center rounded-full items-center gap-2 flex mt-10 text-white  border-dark-green text-xs md:text-lg'
               >
                 {likers.includes(user._id)
@@ -255,7 +235,6 @@ function SingleRecipePage() {
                 {user.firstName + " " + user.lastName}
               </h4>
               <p className='text-sm text-zinc-600 break-all'>{user?.bio}</p>
-              {/* FIXME: Fix mail sending */}
               <a
                 href={`mailto:${user.email}?subject=Hello I really love your recipe`}
               >

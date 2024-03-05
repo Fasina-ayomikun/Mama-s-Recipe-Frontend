@@ -19,8 +19,8 @@ const Filters = () => {
   };
 
   useEffect(() => {
-    getUniqueValues(setSelectList);
     dispatch(getAllRecipes(query));
+    getUniqueValues(setSelectList);
   }, []);
   return (
     <>

@@ -94,7 +94,7 @@ function LoginPage() {
           Register
         </Link>
       </p>
-      {open && <ForgotPassword setOpen={setOpen} />}
+      {open && <ForgotPassword setOpen={setOpen} password={true} />}
     </section>
   );
 }

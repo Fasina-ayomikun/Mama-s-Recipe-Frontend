@@ -9,8 +9,10 @@ import logo from "../images/logo-white.png";
 import { getFromLocalStorage } from "../utils/localStorage";
 import Sidebar from "./Sidebar";
 import { navLinks } from "../utils/utils";
+import ForgotPassword from "../modals/ForgotPassword";
 function Navbar() {
   const [stickyNav, setStickyNav] = useState(false);
+  const [open, setOpen] = useState(false);
   const dispatch = useDispatch();
   let user = getFromLocalStorage();
   const navigate = useNavigate();
@@ -75,14 +77,13 @@ function Navbar() {
         </ul>{" "}
         <button
           onClick={() => {
-            navigate("/add");
+            setOpen(true);
           }}
-          className='border-2 hidden lg:block rounded-full py-2 px-6 bg-transparent border-green '
+          className='border-2 hidden lg:block rounded-full py-2 px-6 bg-transparent border-green  text-green'
         >
-          <NavLink to={"/add"} className={"text-green text-sm"}>
-            Create Recipe
-          </NavLink>
+          Buy us coffee
         </button>
+        {open && <ForgotPassword setOpen={setOpen} password={false} />}
       </div>
     </div>
   );
