@@ -19,17 +19,13 @@ import Loading from "../utils/Loading";
 import { BsStarFill } from "react-icons/bs";
 import { MdOutlineFastfood, MdOutlineFavorite } from "react-icons/md";
 import SingleReviewContent from "../utils/SingleReviewContent";
-import { FaLongArrowAltLeft, FaLongArrowAltRight } from "react-icons/fa";
 function ProfilePage() {
-  const [end, setEnd] = useState({ id: 0, end: true });
   const [endSlice, setEndSlice] = useState(10);
-
-  let [page, setPage] = useState(2);
   const [open, setOpen] = useState(0);
   let currentProfile = JSON.parse(
     localStorage.getItem("Mama-recipe-user-profile")
   );
-  const { recipes, recipesTotal } = useSelector((s) => s.recipes);
+  const { recipes } = useSelector((s) => s.recipes);
   const { reviews } = useSelector((store) => store.reviews);
 
   const { profileUser, isLoading } = useSelector((s) => s.user);
@@ -38,7 +34,7 @@ function ProfilePage() {
   const dispatch = useDispatch();
   useEffect(() => {
     dispatch(singleUser(id));
-    dispatch(getSingleUserRecipe({ id, page }));
+    dispatch(getSingleUserRecipe(id));
   }, []);
   if (isLoading) {
     return <Loading small={false} />;
@@ -150,59 +146,21 @@ function ProfilePage() {
               )}
             </div>
           )}
-          {recipes.length >= 1 && (
-            <div className='flex items-start gap-4 justify-center mx-auto mt-10 text-lg text-zinc-800 '>
-              <p
-                className={`flex item-center gap-2 ${
-                  end.id === 0 && end.end
-                    ? "text-zinc-800 cursor-not-allowed"
-                    : "cursor-pointer text-dark-green"
-                }`}
-                onClick={() => {
-                  if (end.id === 0 && !end.end) {
-                    dispatch(getSingleUserRecipe({ id, page }));
+          {recipes.length <= 10 || (
+            <button
+              onClick={() =>
+                setEndSlice((oldSlice) => {
+                  oldSlice = oldSlice + 5;
+                  if (oldSlice > recipes.length) {
+                    oldSlice = recipes.length;
                   }
-                  setPage((prev) => {
-                    if (prev <= 2) {
-                      setEnd({ id: 0, end: true });
-                      return 1;
-                    } else {
-                      setEnd({ id: 0, end: false });
-                      return prev - 1;
-                    }
-                  });
-                }}
-              >
-                <FaLongArrowAltLeft className='text-3xl' />
-                Prev
-              </p>
-
-              <p
-                className={`flex item-center gap-2  ${
-                  end.id === 1 && end.end
-                    ? "text-zinc-800 cursor-not-allowed"
-                    : "text-dark-green cursor-pointer"
-                }`}
-                onClick={() => {
-                  if (end.id === 1 && !end.end) {
-                    dispatch(getSingleUserRecipe({ id, page }));
-                  }
-                  setPage((prev) => {
-                    if (prev === Math.ceil(recipesTotal / 10)) {
-                      setEnd({ id: 1, end: true });
-
-                      return Math.ceil(recipesTotal / 10);
-                    } else {
-                      setEnd({ id: 1, end: false });
-                      return prev + 1;
-                    }
-                  });
-                }}
-              >
-                Next
-                <FaLongArrowAltRight className='text-3xl' />
-              </p>
-            </div>
+                  return oldSlice;
+                })
+              }
+              className='border-b-2 rounded mx-auto flex my-12 text-zinc-800 border-dark-green'
+            >
+              {endSlice === recipes.length ? "End of Recipes" : "more recipes"}
+            </button>
           )}
         </div>
         <div className={` ${open === 2 ? "block" : " hidden"}`}>

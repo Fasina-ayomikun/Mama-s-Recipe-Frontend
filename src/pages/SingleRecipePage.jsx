@@ -10,12 +10,7 @@ import Loading from "../utils/Loading";
 import { getRecipeReviews } from "../features/reviews/reviewsSlice";
 import Footer from "../components/Footer";
 import { customUrl } from "../utils/axios";
-import {
-  FaLongArrowAltLeft,
-  FaLongArrowAltRight,
-  FaRegCopy,
-  FaRegEdit,
-} from "react-icons/fa";
+import { FaRegCopy, FaRegEdit } from "react-icons/fa";
 import { BsStarFill } from "react-icons/bs";
 import { MdDelete, MdEmail, MdFavoriteBorder } from "react-icons/md";
 import { getSingleUserRecipe } from "../features/recipes/recipesSlice";
@@ -27,11 +22,7 @@ function SingleRecipePage() {
   const [openReviewsList, setOpenReviewsList] = useState(false);
   const [imageIndex, setImageIndex] = useState(0);
   const [openReview, setOpenReview] = useState(false);
-  const [end, setEnd] = useState({ id: 0, end: true });
-  const [endSlice, setEndSlice] = useState(10);
-
-  let [page, setPage] = useState(2);
-
+  const [endSlice, setEndSlice] = useState(8);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const {
     isLoading,
@@ -50,11 +41,9 @@ function SingleRecipePage() {
   } = useSelector((store) => store.singleRecipe);
   const [openDeleteModal, setOpenDeleteModal] = useState(false);
   const { reviews } = useSelector((store) => store.reviews);
-  const {
-    recipes,
-    recipesTotal,
-    isLoading: isRecipesLoading,
-  } = useSelector((store) => store.recipes);
+  const { recipes, isLoading: isRecipesLoading } = useSelector(
+    (store) => store.recipes
+  );
   const dispatch = useDispatch();
   const { id } = useParams();
   const navigate = useNavigate();
@@ -69,7 +58,7 @@ function SingleRecipePage() {
 
   useEffect(() => {
     if (user._id) {
-      dispatch(getSingleUserRecipe({ id: user._id, page }));
+      dispatch(getSingleUserRecipe(user._id));
     }
   }, [user]);
   if (isLoading) {
@@ -267,60 +256,6 @@ function SingleRecipePage() {
                   return <ShowRecipe key={recipe._id} recipe={recipe} />;
                 })
               )}
-            </div>
-          )}
-          {recipes.length >= 1 && (
-            <div className='flex items-start gap-4 justify-center mx-auto mt-10 text-lg text-zinc-800 '>
-              <p
-                className={`flex item-center gap-2 ${
-                  end.id === 0 && end.end
-                    ? "text-zinc-800 cursor-not-allowed"
-                    : "cursor-pointer text-dark-green"
-                }`}
-                onClick={() => {
-                  if (end.id === 0 && !end.end) {
-                    dispatch(getSingleUserRecipe({ id, page }));
-                  }
-                  setPage((prev) => {
-                    if (prev <= 2) {
-                      setEnd({ id: 0, end: true });
-                      return 1;
-                    } else {
-                      setEnd({ id: 0, end: false });
-                      return prev - 1;
-                    }
-                  });
-                }}
-              >
-                <FaLongArrowAltLeft className='text-3xl' />
-                Prev
-              </p>
-
-              <p
-                className={`flex item-center gap-2  ${
-                  end.id === 1 && end.end
-                    ? "text-zinc-800 cursor-not-allowed"
-                    : "text-dark-green cursor-pointer"
-                }`}
-                onClick={() => {
-                  if (end.id === 1 && !end.end) {
-                    dispatch(getSingleUserRecipe({ id, page }));
-                  }
-                  setPage((prev) => {
-                    if (prev === Math.ceil(recipesTotal / 10)) {
-                      setEnd({ id: 1, end: true });
-
-                      return Math.ceil(recipesTotal / 10);
-                    } else {
-                      setEnd({ id: 1, end: false });
-                      return prev + 1;
-                    }
-                  });
-                }}
-              >
-                Next
-                <FaLongArrowAltRight className='text-3xl' />
-              </p>
             </div>
           )}
         </div>

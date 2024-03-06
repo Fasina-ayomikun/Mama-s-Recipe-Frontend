@@ -14,9 +14,9 @@ const getAllRecipesThunk = async (query, thunkAPI) => {
   }
 };
 
-const getSingleUserRecipeThunk = async ({ id, page }, thunkAPI) => {
+const getSingleUserRecipeThunk = async (id, thunkAPI) => {
   try {
-    const resp = await customUrl.get(`/recipes/user/${id}?page=${page}`, {
+    const resp = await customUrl.get(`/recipes/user/${id}`, {
       withCredentials: true,
     });
     return resp.data;
