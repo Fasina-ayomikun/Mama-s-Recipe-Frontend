@@ -94,6 +94,7 @@ const recipesSlice = createSlice({
           isLoading: false,
           isError: false,
           recipes: payload.recipes,
+          recipesTotal: payload.totalLength,
         };
       })
       .addCase(getSingleUserRecipe.rejected, (state, { payload }) => {
