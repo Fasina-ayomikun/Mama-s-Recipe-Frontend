@@ -14,13 +14,9 @@ import AboutPage from "./pages/AboutPage";
 import EditProfilePage from "./pages/EditProfilePage";
 import ProtectedRoute from "./utils/ProtectedRoute";
 
-import { ToastContainer, toast } from "react-toastify";
-import ForgotPassword from "./modals/ForgotPassword";
+import { ToastContainer } from "react-toastify";
 import ResetPasswordPage from "./pages/ResetPasswordPage";
-import axios from "axios";
 import { customUrl } from "./utils/axios";
-import { disableOAuth } from "./features/users/userSlice";
-import { useDispatch, useSelector } from "react-redux";
 function App() {
   const [user, setUser] = useState(null);
   let localUser = getFromLocalStorage();
@@ -32,12 +28,10 @@ function App() {
       if (resp.status === 200) {
         setToLocalStorage(resp.data.user);
         setUser(resp.data.user);
-        console.log(resp.data);
+
         return;
       }
-    } catch (error) {
-      console.log(error);
-    }
+    } catch (error) {}
   };
   useEffect(() => {
     getUser();
