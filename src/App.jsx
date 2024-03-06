@@ -24,6 +24,9 @@ function App() {
     try {
       const resp = await customUrl.get("/oauth/user", {
         withCredentials: true,
+        headers: {
+          "Access-Control-Origin": "https://mama-s-recipe.vercel.app/",
+        },
       });
       if (resp.status === 200) {
         setToLocalStorage(resp.data.user);
