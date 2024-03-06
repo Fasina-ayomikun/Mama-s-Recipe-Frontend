@@ -22,7 +22,7 @@ function App() {
   let localUser = getFromLocalStorage();
   const getUser = async () => {
     try {
-      const resp = await customUrl.get("/auth/user", {
+      const resp = await customUrl.get("/oauth/user", {
         withCredentials: true,
       });
       if (resp.status === 200) {
