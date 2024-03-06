@@ -10,11 +10,11 @@ import { getAllRecipes } from "../features/recipes/recipesSlice";
 import { initialQuery } from "../utils/utils";
 
 function RecipesPage() {
-  const [endSlice, setEndSlice] = useState(10);
+  const [end, setEnd] = useState({ id: 0, end: true });
   const { isLoading, recipes, recipesTotal } = useSelector(
     (state) => state.recipes
   );
-  let [page, setPage] = useState(1);
+  let [page, setPage] = useState(2);
   const dispatch = useDispatch();
 
   return (
@@ -33,7 +33,7 @@ function RecipesPage() {
             {recipes.length < 1 ? (
               <p className='text-zinc-800'>No recipes to display.</p>
             ) : (
-              recipes?.slice(0, endSlice).map((recipe) => {
+              recipes.map((recipe) => {
                 return <ShowRecipe key={recipe._id} recipe={recipe} />;
               })
             )}
@@ -43,22 +43,23 @@ function RecipesPage() {
         <div className='flex items-start gap-4 justify-center mx-auto mt-10 text-lg text-zinc-800 '>
           <p
             className={`flex item-center gap-2 ${
-              page === 1
+              end.id === 0 && end.end
                 ? "text-zinc-800 cursor-not-allowed"
                 : "cursor-pointer text-dark-green"
             }`}
-            //FIXME:Fix Colour issue
             onClick={() => {
+              if (end.id === 0 && !end.end) {
+                dispatch(getAllRecipes({ ...initialQuery, page: page - 1 }));
+              }
               setPage((prev) => {
-                console.log(prev);
-                if (prev === 1) {
+                if (prev <= 2) {
+                  setEnd({ id: 0, end: true });
                   return 1;
                 } else {
+                  setEnd({ id: 0, end: false });
                   return prev - 1;
                 }
               });
-              console.log(page);
-              dispatch(getAllRecipes({ ...initialQuery, page }));
             }}
           >
             <FaLongArrowAltLeft className='text-3xl' />
@@ -67,41 +68,30 @@ function RecipesPage() {
 
           <p
             className={`flex item-center gap-2  ${
-              page === Math.ceil(recipesTotal / 3)
+              end.id === 1 && end.end
                 ? "text-zinc-800 cursor-not-allowed"
                 : "text-dark-green cursor-pointer"
             }`}
             onClick={() => {
+              if (end.id === 1 && !end.end) {
+                dispatch(getAllRecipes({ ...initialQuery, page }));
+              }
               setPage((prev) => {
-                if (prev === Math.ceil(recipesTotal / 3)) {
-                  return Math.ceil(recipesTotal / 3);
+                if (prev === Math.ceil(recipesTotal / 10)) {
+                  setEnd({ id: 1, end: true });
+
+                  return Math.ceil(recipesTotal / 10);
                 } else {
+                  setEnd({ id: 1, end: false });
                   return prev + 1;
                 }
               });
-              dispatch(getAllRecipes({ ...initialQuery, page }));
             }}
           >
             Next
             <FaLongArrowAltRight className='text-3xl' />
           </p>
         </div>
-        {recipes.length <= 3 ? null : (
-          <button
-            className='capitalize border-b-2 rounded mx-auto flex my-12 text-zinc-800 border-dark-green'
-            onClick={() =>
-              setEndSlice((oldSlice) => {
-                oldSlice = oldSlice + 5;
-                if (oldSlice > recipes.length) {
-                  oldSlice = recipes.length;
-                }
-                return oldSlice;
-              })
-            }
-          >
-            {endSlice === recipes.length ? "End of Recipes" : "more recipes"}
-          </button>
-        )}
       </section>
       <Footer />
     </>
