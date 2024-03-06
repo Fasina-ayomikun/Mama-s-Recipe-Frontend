@@ -31,7 +31,9 @@ function App() {
 
         return;
       }
-    } catch (error) {}
+    } catch (error) {
+      console.log(error);
+    }
   };
   useEffect(() => {
     getUser();
