@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { BsStarHalf, BsStarFill, BsStar } from "react-icons/bs";
 
 function Stars({ ratings }) {

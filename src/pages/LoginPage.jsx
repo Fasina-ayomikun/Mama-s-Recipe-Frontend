@@ -2,12 +2,9 @@ import React, { useEffect } from "react";
 import { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
-import { handleOAuth, loginUser } from "../features/users/userSlice";
+import { loginUser } from "../features/users/userSlice";
 import Loading from "../utils/Loading";
 import ShowPassword from "../utils/ShowPassword";
-import { IoLogoGoogle } from "react-icons/io5";
-import { FaGithub } from "react-icons/fa";
-import { FaInstagramSquare } from "react-icons/fa";
 import SocialIcons from "../utils/SocialIcons";
 import ForgotPassword from "../modals/ForgotPassword";
 

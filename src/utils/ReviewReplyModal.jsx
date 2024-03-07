@@ -1,8 +1,6 @@
 import React, { useState } from "react";
-import Stars from "./Stars";
 import { checkUser } from "./functions";
 import { GrMoreVertical } from "react-icons/gr";
-import { ReviewModal, ReviewToggleModel } from "../modals";
 import ReplyToggleModal from "../modals/ReplyToggleModal";
 
 const ReviewReplyModal = ({ reply }) => {

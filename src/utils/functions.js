@@ -51,7 +51,6 @@ const toggleLike = async (id, setIsSubmitting, dispatch) => {
     const resp = await customUrl.get(`/recipes/like/${id}`, {
       withCredentials: true,
     });
-    console.log(resp);
     if (resp?.status === 200) {
       dispatch(getSingleRecipe(id));
     }

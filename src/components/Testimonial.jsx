@@ -1,6 +1,7 @@
 import React from "react";
 import hero from "../images/hero.jpg";
-import { ImgContainer, Stars } from "../utils";
+import ImgContainer from "../utils/ImgContainer";
+import Stars from "../utils/Stars";
 function Testimonial() {
   return (
     <>

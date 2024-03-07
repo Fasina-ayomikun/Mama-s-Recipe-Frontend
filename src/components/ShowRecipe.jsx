@@ -1,6 +1,6 @@
 import React from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { ImgContainer } from "../utils";
+import ImgContainer from "../utils/ImgContainer";
 import { checkUserPermission } from "../utils/functions";
 import { FaComments } from "react-icons/fa";
 import { FcLike } from "react-icons/fc";

@@ -1,38 +1,31 @@
 import React, { useEffect } from "react";
 import { useRef } from "react";
 import { useState } from "react";
-import { AiFillPlusCircle, AiOutlineCheck } from "react-icons/ai";
-import { FiMoreHorizontal } from "react-icons/fi";
+import { AiFillPlusCircle } from "react-icons/ai";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate, useParams } from "react-router-dom";
 import {
   clearState,
   createRecipe,
-  createStep,
   editRecipe,
-  editStep,
   handleChange,
 } from "../features/singleRecipe/singleRecipeSlice";
-import StepToggle from "../modals/StepToggle";
-
 import Loading from "../utils/Loading";
 import Tags from "../utils/Tags";
 import { HiOutlineArrowNarrowLeft } from "react-icons/hi";
 import { convertFileToBAse64 } from "../utils/utils";
 import { toast } from "react-toastify";
+import SingleInstruction from "../components/SingleInstruction";
+import StepInputSection from "../components/StepInputSection";
 
 function CreateRecipesPage() {
   const recipeToEdit = JSON.parse(
     localStorage.getItem("Mama-recipe-edit-recipe")
   );
-  const [openStepModal, setOpenStepModal] = useState({
-    status: false,
-    stepIndex: "",
-  });
+
   const [creatingNewStep, setCreatingNewStep] = useState(true);
   const [stepToEditIndex, setStepToEditIndex] = useState("");
   const [editingStep, setEditingStep] = useState(false);
-  const [stepText, setStepText] = useState("");
   const [files, setFiles] = useState(null);
   const [imagesList, setImagesList] = useState([]);
   const { id } = useParams();
@@ -86,7 +79,6 @@ function CreateRecipesPage() {
         })
         .catch((err) => console.log(err));
     }
-    console.log(input.files);
   };
 
   const handleSubmit = (e) => {
@@ -145,7 +137,6 @@ function CreateRecipesPage() {
       dispatch(clearState());
       setImagesList(images);
     } else {
-      console.log(recipeToEdit.images);
       setImagesList(recipeToEdit.images);
     }
   }, []);
@@ -248,86 +239,24 @@ function CreateRecipesPage() {
           </div>
           <div className=' relative pb-3'>
             {instructions?.map((instruction, index) => {
-              const { step, details } = instruction;
-
               return (
-                <div
-                  key={step}
-                  className='relative mb-1 text-zinc-800    bg-transparent  w-full  pb-3 px-3  flex gap-2 items-start'
-                >
-                  <AiOutlineCheck className='text-3xl text-green-600' />
-                  <h3 className='text-dark-green font-bold'>
-                    Step{index + 1}:
-                  </h3>
-                  <p className='break-all w-11/12 bg-transparent pr-8 resize-none'>
-                    {details}
-                  </p>
-                  <div className='relative'>
-                    <FiMoreHorizontal
-                      className={`${
-                        openStepModal.stepIndex === instruction.step &&
-                        openStepModal.status
-                          ? "text-dark-green text-xl"
-                          : "text-zinc-800 text-xl"
-                      }`}
-                      onClick={() => {
-                        setOpenStepModal({
-                          status: !openStepModal.status,
-                          stepIndex: instruction.step,
-                        });
-                      }}
-                    />
-                    {openStepModal.stepIndex === instruction.step &&
-                      openStepModal.status && (
-                        <StepToggle
-                          step={instruction.step}
-                          setStepToEditIndex={setStepToEditIndex}
-                          setCreatingNewStep={setCreatingNewStep}
-                          setEditingStep={setEditingStep}
-                          setOpenStepModal={setOpenStepModal}
-                        />
-                      )}
-                  </div>
-                </div>
+                <SingleInstruction
+                  key={index}
+                  instruction={instruction}
+                  setStepToEditIndex={setStepToEditIndex}
+                  setCreatingNewStep={setCreatingNewStep}
+                  setEditingStep={setEditingStep}
+                />
               );
             })}
             {creatingNewStep ? (
-              <>
-                <input
-                  ref={ref}
-                  readOnly={isLoading}
-                  onKeyUp={(e) => setStepText(e.target.value)}
-                  placeholder='Type here...'
-                  className='mb-6 text-zinc-800   bg-transparent border-dark-green border-b-2  w-full rounded  pb-3 px-3  flex gap-2 items-center'
-                ></input>
-
-                <button
-                  className='cursor-pointer text-center underline mx-auto flex'
-                  type='button'
-                  onClick={() => {
-                    console.log(instructions);
-                    setCreatingNewStep(false);
-                    if (!(stepText.length >= 1)) return;
-                    if (editingStep) {
-                      dispatch(
-                        editStep({ step: stepToEditIndex, details: stepText })
-                      );
-                      setStepToEditIndex("");
-                      setEditingStep(false);
-                    } else {
-                      dispatch(
-                        createStep({
-                          step: instructions.length + 1,
-                          details: stepText,
-                        })
-                      );
-                    }
-                    ref.current.value = "";
-                  }}
-                >
-                  {editingStep ? "Edit" : "Add"}
-                </button>
-              </>
+              <StepInputSection
+                setCreatingNewStep={setCreatingNewStep}
+                stepToEditIndex={stepToEditIndex}
+                setStepToEditIndex={setStepToEditIndex}
+                setEditingStep={setEditingStep}
+                editingStep={editingStep}
+              />
             ) : (
               <h5
                 onClick={() => {

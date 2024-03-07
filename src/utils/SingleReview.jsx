@@ -1,12 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { GrMoreVertical } from "react-icons/gr";
 import { useDispatch, useSelector } from "react-redux";
-import { setEditReviewDetails } from "../features/singleReview/singleReviewSlice";
-import ReviewToggleModel from "../modals/ReviewToggleModel";
-import { checkUser } from "./functions";
-import Stars from "./Stars";
-import { IoIosSend } from "react-icons/io";
-import { MdArrowDownward } from "react-icons/md";
 import SingleReviewContent from "./SingleReviewContent";
 import ReviewReplyModal from "./ReviewReplyModal";
 import Loading from "./Loading";
@@ -31,19 +24,15 @@ function SingleReview({ review, setOpenReview }) {
     dispatch(handleChange({ name, value }));
   };
   const handleSubmit = (e) => {
-    console.log(isEditing);
     e.preventDefault();
     if (isEditing) {
-      console.log("is editing");
       dispatch(editReply({ editId: replyId, comment, reviewId: review._id }));
     } else {
-      console.log("creating");
       dispatch(createReply({ reviewId: review._id, comment }));
     }
   };
   useEffect(() => {
     if (review._id) {
-      console.log(review._id);
       dispatch(getAllReplies(review._id));
     }
   }, []);

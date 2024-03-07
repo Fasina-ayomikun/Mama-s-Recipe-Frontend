@@ -15,7 +15,6 @@ export const initialValue = {
 export const convertFileToBAse64 = (file) => {
   return new Promise((resolve, reject) => {
     const reader = new FileReader();
-    let result = "";
     reader.onload = () => {
       resolve(reader.result);
     };
@@ -28,9 +27,9 @@ export const convertFileToBAse64 = (file) => {
 };
 export const navLinks = [
   { name: "home", url: "/" },
+  { name: "recipes", url: "/recipes" },
   { name: "contact", url: "/contact" },
   { name: "about", url: "/about" },
-  { name: "recipes", url: "/recipes" },
 ];
 export const initialQuery = {
   search: "",

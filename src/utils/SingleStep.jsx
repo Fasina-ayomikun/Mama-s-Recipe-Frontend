@@ -1,6 +1,6 @@
 import React from "react";
 
-function SingleStep({ index, instruction }) {
+function SingleStep({ instruction }) {
   const { step, details } = instruction;
   return (
     <p className='text-md mb-4 '>
