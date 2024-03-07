@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import { useState } from "react";
 import { FiAlignJustify } from "react-icons/fi";
 import { useDispatch } from "react-redux";
-import { Link, NavLink, useNavigate } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 import { setOpenSidebar } from "../features/modal/modalSlice";
 import { logoutUser } from "../features/users/userSlice";
 import logo from "../images/logo-white.png";
@@ -15,7 +15,6 @@ function Navbar() {
   const [open, setOpen] = useState(false);
   const dispatch = useDispatch();
   let user = getFromLocalStorage();
-  const navigate = useNavigate();
   useEffect(() => {
     const eventListener = window.addEventListener("scroll", () => {
       if (window.scrollY > window.innerHeight / 10) {
