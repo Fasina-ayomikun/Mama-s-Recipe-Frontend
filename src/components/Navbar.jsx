@@ -56,7 +56,7 @@ function Navbar() {
           {user?.email ? (
             <>
               <li className='cursor-pointer'>
-                <NavLink to={`/profile/${user._id}`} activeClassName='active'>
+                <NavLink to={`/profile/${user?._id}`} activeClassName='active'>
                   profile
                 </NavLink>
               </li>

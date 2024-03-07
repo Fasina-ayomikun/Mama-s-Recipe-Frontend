@@ -12,8 +12,6 @@ function Home() {
   const success = queryParams.get("success");
   const navigate = useNavigate();
   useEffect(() => {
-    console.log(success);
-
     if (success) {
       toast.success("Payment successful, We love you");
       queryParams.delete("success");
