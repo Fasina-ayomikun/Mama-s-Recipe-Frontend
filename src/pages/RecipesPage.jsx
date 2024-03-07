@@ -18,7 +18,7 @@ function RecipesPage() {
   const dispatch = useDispatch();
 
   return (
-    <>
+    <section>
       <Hero text='Recipes' />
       <section className='max-w-6xl w-full  px-4 mx-auto py-8'>
         <h3 className='text-3xl text-black font-semibold capitalize text-center my-4'>
@@ -29,7 +29,7 @@ function RecipesPage() {
         {isLoading ? (
           <Loading small={true} />
         ) : (
-          <div className='grid lg:grid-cols-3 md:grid-cols-2  sm:grid-cols-1 gap-3 items-center justify-between mt-16 w-full'>
+          <section className='grid lg:grid-cols-3 md:grid-cols-2  sm:grid-cols-1 gap-3 items-center justify-between mt-16 w-full'>
             {recipes.length < 1 ? (
               <p className='text-zinc-800'>No recipes to display.</p>
             ) : (
@@ -37,7 +37,7 @@ function RecipesPage() {
                 return <ShowRecipe key={recipe._id} recipe={recipe} />;
               })
             )}
-          </div>
+          </section>
         )}
 
         {recipes.length >= 1 && (
@@ -96,7 +96,7 @@ function RecipesPage() {
         )}
       </section>
       <Footer />
-    </>
+    </section>
   );
 }
 

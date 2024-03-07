@@ -19,7 +19,7 @@ const StepInputSection = ({
 
   const dispatch = useDispatch();
   return (
-    <>
+    <div>
       <input
         value={stepText}
         readOnly={isLoading}
@@ -50,7 +50,7 @@ const StepInputSection = ({
       >
         {editingStep ? "Edit" : "Add"}
       </button>
-    </>
+    </div>
   );
 };
 

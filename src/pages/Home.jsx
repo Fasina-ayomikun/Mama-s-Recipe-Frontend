@@ -23,13 +23,13 @@ function Home() {
   }, []);
 
   return (
-    <>
+    <section>
       <Hero text="Mama's recipe" />
       <PopularRecipes />
       <About />
       <Testimonial />
       <Footer></Footer>
-    </>
+    </section>
   );
 }
 

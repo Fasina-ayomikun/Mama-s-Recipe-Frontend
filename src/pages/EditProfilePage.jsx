@@ -49,7 +49,7 @@ function EditProfilePage() {
 
   useEffect(() => {
     if (isEdited) {
-      navigate(`/profile/${value._id}`);
+      navigate(`/profile/${value?._id}`);
       dispatch(setUserEdited());
     }
   }, [isEdited]);

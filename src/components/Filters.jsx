@@ -23,7 +23,7 @@ const Filters = () => {
     getUniqueValues(setSelectList);
   }, []);
   return (
-    <>
+    <section>
       <div className='mt-16 flex md:flex-nowrap flex-wrap gap-y-4 gap-x-3'>
         <input
           type='text'
@@ -119,7 +119,7 @@ const Filters = () => {
       >
         Clear Filters
       </button>
-    </>
+    </section>
   );
 };
 

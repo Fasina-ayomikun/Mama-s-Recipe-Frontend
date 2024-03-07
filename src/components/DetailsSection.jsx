@@ -48,7 +48,7 @@ const DetailsSection = ({ openReviewsList }) => {
           </ol>
         </div>{" "}
       </div>
-      <h3 className='text-center text-2xl underline font-extrabold tracking-wide mb-3'>
+      <h3 className='text-start text-2xl  font-extrabold tracking-wide mb-3'>
         Instructions
       </h3>
       {instructions?.length < 1 ? (

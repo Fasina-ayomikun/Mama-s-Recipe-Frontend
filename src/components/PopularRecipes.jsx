@@ -13,8 +13,8 @@ function PopularRecipes() {
   }, []);
 
   return (
-    <>
-      <section className='max-w-6xl md:w-full sm:w-9/12 mx-auto py-8'>
+    <section>
+      <section className='max-w-6xl w-full  mx-auto py-8'>
         <h3 className='text-3xl  font-semibold capitalize text-center my-4 text-black'>
           Explore Popular Recipes
         </h3>
@@ -32,7 +32,7 @@ function PopularRecipes() {
         </button>
       </section>
       <hr className='border-dark-green' />
-    </>
+    </section>
   );
 }
 

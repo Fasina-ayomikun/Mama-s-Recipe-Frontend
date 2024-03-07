@@ -26,7 +26,7 @@ function Navbar() {
     window.removeEventListener("scroll", eventListener);
   }, []);
   return (
-    <div
+    <nav
       className={` bg-black z-50  w-screen px-3 md:px-6 mt-0${
         stickyNav && " fixed top-0 left-0 right-0"
       }`}
@@ -75,6 +75,7 @@ function Navbar() {
           )}
         </ul>{" "}
         <button
+          type='button'
           onClick={() => {
             setOpen(true);
           }}
@@ -84,7 +85,7 @@ function Navbar() {
         </button>
         {open && <ForgotPassword setOpen={setOpen} password={false} />}
       </div>
-    </div>
+    </nav>
   );
 }
 

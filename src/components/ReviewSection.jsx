@@ -12,7 +12,7 @@ const ReviewSection = ({ openReviewsList, id }) => {
     setOpenReview(true);
   };
   return (
-    <div className={`${openReviewsList ? "block" : " hidden"}`}>
+    <section className={`${openReviewsList ? "block" : " hidden"}`}>
       <div className='my-7 mt-12 flex items-center justify-between '>
         <h3 className='text-xl font-extrabold tracking-wide '>Reviews</h3>
         <h5
@@ -55,7 +55,7 @@ const ReviewSection = ({ openReviewsList, id }) => {
           {endSlice === reviews.length ? "End of reviews" : "more reviews"}{" "}
         </button>
       )}
-    </div>
+    </section>
   );
 };
 
