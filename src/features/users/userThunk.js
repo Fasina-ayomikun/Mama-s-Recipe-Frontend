@@ -1,4 +1,5 @@
 import { customUrl } from "../../utils/axios";
+import { removeFromLocalStorage } from "../../utils/localStorage";
 const registerUserThunk = async (url, user, thunkAPI) => {
   try {
     const resp = await customUrl.post(url, user, {
@@ -51,7 +52,7 @@ const logoutUserThunk = async (url, thunkAPI) => {
     const resp = await customUrl.get(url, {
       withCredentials: true,
     });
-
+    removeFromLocalStorage();
     return resp.data;
   } catch (error) {
     return thunkAPI.rejectWithValue(error.response.data.error.msg);
