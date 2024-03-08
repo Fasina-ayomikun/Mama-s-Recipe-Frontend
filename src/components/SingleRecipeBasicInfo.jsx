@@ -6,8 +6,10 @@ import { ToggleDeleteModal } from "../modals";
 import { FaRegEdit } from "react-icons/fa";
 import { useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
+import { getFromLocalStorage } from "../utils/localStorage";
 
 const SingleRecipeBasicInfo = ({ id }) => {
+  const loggedInUser = getFromLocalStorage();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const {
     name,
@@ -76,7 +78,7 @@ const SingleRecipeBasicInfo = ({ id }) => {
           onClick={() => toggleLike(recipeId, setIsSubmitting, dispatch)}
           className='bg-dark-green capitalize border-2 py-3 px-5 md:px-16  w-full justify-center rounded-full items-center gap-2 flex mt-10 text-white  border-dark-green text-xs md:text-lg'
         >
-          {likers.includes(user?._id)
+          {likers.includes(loggedInUser?._id)
             ? "Added to Favorites"
             : "Add to Favorites"}
           <span className='block md:hidden'>( {noOfLikes} )</span>

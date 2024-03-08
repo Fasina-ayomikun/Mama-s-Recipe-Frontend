@@ -28,7 +28,7 @@ const ResetPasswordPage = () => {
         </h3>
 
         <input
-          type='text'
+          type='password'
           name='password'
           value={password}
           onChange={(e) => setPassword(e.target.value)}
@@ -36,7 +36,7 @@ const ResetPasswordPage = () => {
           className='text-zinc-800 block bg-transparent border-dark-green border-b-2  w-full rounded h-10 px-3 mb-5 mt-6'
         />
         <input
-          type='text'
+          type='password'
           name='password2'
           value={password2}
           onChange={(e) => setPassword2(e.target.value)}
