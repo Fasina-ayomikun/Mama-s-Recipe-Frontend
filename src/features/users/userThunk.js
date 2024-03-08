@@ -52,7 +52,7 @@ const logoutUserThunk = async (url, thunkAPI) => {
     const resp = await customUrl.get(url, {
       withCredentials: true,
     });
-    removeFromLocalStorage();
+    // removeFromLocalStorage();
     return resp.data;
   } catch (error) {
     return thunkAPI.rejectWithValue(error.response.data.error.msg);

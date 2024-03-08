@@ -26,7 +26,7 @@ function Sidebar() {
         className='absolute md:top-5 md:right-5 top-2 right-2  text-black  text-3xl'
       ></MdClose>
       {user ? (
-        <div className='flex items-center border-green flex-col md:flex-row gap-6 lg:gap-10 border-b-2'>
+        <div className='flex items-center border-green flex-col md:flex-row gap-6 lg:gap-10 border-b-2 px-2'>
           <div
             onClick={() => {
               navigate(`/profile/${user._id}`);

@@ -76,7 +76,7 @@ const SingleRecipeBasicInfo = ({ id }) => {
           onClick={() => toggleLike(recipeId, setIsSubmitting, dispatch)}
           className='bg-dark-green capitalize border-2 py-3 px-5 md:px-16  w-full justify-center rounded-full items-center gap-2 flex mt-10 text-white  border-dark-green text-xs md:text-lg'
         >
-          {likers.includes(user._id)
+          {likers.includes(user?._id)
             ? "Added to Favorites"
             : "Add to Favorites"}
           <span className='block md:hidden'>( {noOfLikes} )</span>
