@@ -71,7 +71,7 @@ function SingleRecipePage() {
           openReviewsList={openReviewsList}
         />
         <hr className='border-gray-500 my-6' />
-        <DetailsSection openReviewsList={openReviewsList} />
+        <DetailsSection openReviewsList={openReviewsList} currentId={id} />
         <ReviewSection openReviewsList={openReviewsList} id={id} />
       </section>
       <Footer />

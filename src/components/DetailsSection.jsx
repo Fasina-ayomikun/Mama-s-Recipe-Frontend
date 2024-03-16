@@ -7,14 +7,14 @@ import SingleStep from "../utils/SingleStep";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 
-const DetailsSection = ({ openReviewsList }) => {
+const DetailsSection = ({ openReviewsList, currentId }) => {
   const { ingredients, equipments, instructions, user } = useSelector(
     (store) => store.singleRecipe
   );
   const { recipes, isLoading: isRecipesLoading } = useSelector(
     (store) => store.recipes
   );
-
+  const filteredRecipes = recipes.filter((recipe) => recipe._id !== currentId);
   const navigate = useNavigate();
   return (
     <div className={`${openReviewsList ? "hidden" : " block"}`}>
@@ -90,10 +90,10 @@ const DetailsSection = ({ openReviewsList }) => {
         <Loading small={true} />
       ) : (
         <div className=' grid lg:grid-cols-3 md:grid-cols-2  grid-cols-1 gap-3 items-center justify-between mt-16 w-full '>
-          {recipes.length < 1 ? (
+          {filteredRecipes.length < 1 ? (
             <p className='text-zinc-800 h-48'>No recipes to display.</p>
           ) : (
-            recipes.map((recipe) => {
+            filteredRecipes.map((recipe) => {
               return <ShowRecipe key={recipe._id} recipe={recipe} />;
             })
           )}
