@@ -25,7 +25,7 @@
   "scripts": {
     "buildtail": "tailwindcss -i ./src/index.css -o ./src/css/main.css",
     "watch": "tailwindcss -i ./src/index.css -o ./src/css/main.css --watch",
-    "start": "vite start",
+    "start": "vite",
     "build": "vite build",
     "test": "vitest",
     "eject": "vite eject"
