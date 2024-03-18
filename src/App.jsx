@@ -36,8 +36,11 @@ function App() {
         return;
       }
     } catch (error) {
-      if (error.response.status === 401) {
-        removeFromLocalStorage();
+      if (error.response) {
+        console.log(error.response);
+        if (error.response.status === 401) {
+          removeFromLocalStorage();
+        }
       }
       console.log(error);
     }
