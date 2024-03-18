@@ -8,7 +8,11 @@ import LoginPage from "./pages/LoginPage";
 import ProfilePage from "./pages/ProfilePage";
 import RecipesPage from "./pages/RecipesPage";
 import SignUpPage from "./pages/SignUpPage";
-import { getFromLocalStorage, setToLocalStorage } from "./utils/localStorage";
+import {
+  getFromLocalStorage,
+  removeFromLocalStorage,
+  setToLocalStorage,
+} from "./utils/localStorage";
 import SingleRecipePage from "./pages/SingleRecipePage";
 import AboutPage from "./pages/AboutPage";
 import EditProfilePage from "./pages/EditProfilePage";
@@ -32,6 +36,9 @@ function App() {
         return;
       }
     } catch (error) {
+      if (error.response.status === 401) {
+        removeFromLocalStorage();
+      }
       console.log(error);
     }
   };

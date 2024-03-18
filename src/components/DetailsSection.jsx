@@ -17,11 +17,11 @@ const DetailsSection = ({ openReviewsList, currentId }) => {
   const filteredRecipes = recipes.filter((recipe) => recipe._id !== currentId);
   const navigate = useNavigate();
   return (
-    <div className={`${openReviewsList ? "hidden" : " block"}`}>
+    <section className={`${openReviewsList ? "hidden" : " block"}`}>
       <div className='flex-wrap flex items-start justify-evenly my-10 gap-5'>
         <div>
           <h3 className='text-xl font-extrabold tracking-wide mb-3'>
-            Ingredients:
+            Ingredients
           </h3>
           <ol className='list-inside list-decimal'>
             {ingredients?.length < 1 ? (
@@ -99,7 +99,7 @@ const DetailsSection = ({ openReviewsList, currentId }) => {
           )}
         </div>
       )}
-    </div>
+    </section>
   );
 };
 

@@ -6,7 +6,10 @@ function About() {
       <h3 className='text-3xl  font-semibold capitalize text-black text-center my-4'>
         About Us
       </h3>{" "}
-      <p className='mt-10 leading-6 text-sm text-center text-gray-600'>
+      <p
+        data-testid='about'
+        className='mt-10 leading-6 text-sm text-center text-gray-600'
+      >
         Lorem ipsum dolor sit amet consectetur adipisicing elit. Nobis
         necessitatibus, velit, magnam amet deleniti autem deserunt, dolorum
         debitis obcaecati odit aspernatur illum labore suscipit. Sunt adipisci
